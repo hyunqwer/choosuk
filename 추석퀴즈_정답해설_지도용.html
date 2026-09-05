@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>추석 상식 퀴즈 — 정답 및 해설 (지도용)</title>
+<style>
+  :root{
+    --primary:#1f3a63;
+    --accent:#c0392b;
+    --ok:#1e7a45;
+    --ok-bg:#eef8f1;
+    --bg:#f6f7f9;
+    --card:#fff;
+    --text:#2b2f36;
+    --muted:#6b7280;
+    --border:#e2e6ec;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.65;
+    margin:0; padding:24px 16px 60px; display:flex; justify-content:center; font-size:15px;
+  }
+  .container{max-width:820px; width:100%;}
+
+  header{
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:24px 24px 20px; box-shadow:0 2px 10px rgba(0,0,0,.04);
+  }
+  h1{margin:0 0 4px; font-size:1.4rem; color:var(--primary); letter-spacing:-.02em;}
+  .sub{margin:0; color:var(--muted); font-size:.9rem;}
+  .warn{
+    margin-top:16px; padding:11px 14px; border-radius:8px;
+    background:#fdeeee; border-left:4px solid var(--accent);
+    color:var(--accent); font-size:.9rem; font-weight:700;
+  }
+
+  .summary{
+    margin-top:18px; background:var(--card); border:1px solid var(--border);
+    border-radius:12px; padding:18px 20px;
+  }
+  .summary .note{margin:0 0 12px; font-size:.82rem; color:var(--muted);}
+  .summary h2{margin:0 0 6px; font-size:.95rem; color:var(--primary); letter-spacing:.02em;}
+  table{width:100%; border-collapse:collapse; font-size:.88rem;}
+  th,td{border:1px solid var(--border); padding:6px 9px; text-align:left;}
+  th{background:#f0f3f7; color:var(--muted); font-weight:700;}
+  td:first-child,th:first-child{width:44px; text-align:center;}
+  .summary-wrap{overflow-x:auto;}
+
+  .item{
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:18px 20px; margin-top:14px; box-shadow:0 1px 4px rgba(0,0,0,.03);
+    break-inside:avoid;
+  }
+  .head{display:flex; gap:10px; align-items:flex-start;}
+  .num{
+    flex:none; width:26px; height:26px; border-radius:50%; background:var(--primary);
+    color:#fff; font-size:.82rem; font-weight:700; display:flex;
+    align-items:center; justify-content:center; margin-top:2px;
+  }
+  .qtext{font-weight:700; font-size:1rem;}
+  .opts{list-style:none; margin:12px 0 0; padding:0 0 0 36px; display:flex; flex-direction:column; gap:5px;}
+  .opts li{
+    padding:7px 11px; border:1px solid var(--border); border-radius:7px;
+    font-size:.93rem; color:#4b5259; background:#fbfcfd;
+  }
+  .opts li.ok{
+    background:var(--ok-bg); border-color:var(--ok); color:var(--ok); font-weight:700;
+  }
+  .tag{
+    margin-left:8px; font-size:.72rem; background:var(--ok); color:#fff;
+    padding:1px 7px; border-radius:99px; vertical-align:1px;
+  }
+  .meta{margin:14px 0 0 36px; display:flex; flex-direction:column; gap:8px;}
+  .hint,.exp{padding:10px 13px; border-radius:8px; font-size:.9rem;}
+  .hint{background:#fff8e7; border-left:3px solid #e0a43c; color:#7a5b22;}
+  .exp{background:#f2f5fa; border-left:3px solid var(--primary); color:#3a4453;}
+  .hint b,.exp b{display:inline-block; margin-right:6px;}
+  .hint b{color:#a9791f;}
+  .exp b{color:var(--primary);}
+
+  footer{margin-top:24px; text-align:center; font-size:.8rem; color:var(--muted); line-height:1.8;}
+
+  @media print{
+    body{background:#fff; padding:0; font-size:11pt;}
+    header,.summary,.item{box-shadow:none; border-color:#ccc;}
+    .warn{display:none;}
+    .item{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>추석 상식 퀴즈 — 정답 및 해설</h1>
+    <p class="sub">초등용 20문항 · 지도용 검토 자료 · 출제 순서 기준</p>
+    <div class="warn">⚠️ 이 문서는 부모님·선생님 검토용입니다. 아이에게는 보여주지 마세요.</div>
+  </header>
+
+  <div class="summary">
+    <h2>정답 한눈에 보기</h2>
+    <p class="note">아이 화면에서는 문제와 보기 순서가 매번 무작위로 섞입니다. 아래 번호는 이 문서의 정리 순서입니다.</p>
+    <div class="summary-wrap">
+      <table>
+        <thead><tr><th>번호</th><th>정답</th></tr></thead>
+        <tbody><tr><td>1</td><td>한가위</td></tr><tr><td>2</td><td>음력 8월 15일</td></tr><tr><td>3</td><td>차례</td></tr><tr><td>4</td><td>벌초</td></tr><tr><td>5</td><td>성묘</td></tr><tr><td>6</td><td>햅쌀</td></tr><tr><td>7</td><td>추수</td></tr><tr><td>8</td><td>솔잎</td></tr><tr><td>9</td><td>앞으로 보름달처럼 크게 잘되라는 마음</td></tr><tr><td>10</td><td>김치</td></tr><tr><td>11</td><td>강강술래</td></tr><tr><td>12</td><td>눈싸움</td></tr><tr><td>13</td><td>팥죽</td></tr><tr><td>14</td><td>붉은 과일은 동쪽, 흰 과일은 서쪽에 놓는다</td></tr><tr><td>15</td><td>대추 - 밤 - 배 - 감</td></tr><tr><td>16</td><td>생선 머리는 동쪽, 꼬리는 서쪽으로 놓는다</td></tr><tr><td>17</td><td>포는 왼쪽에, 식혜는 오른쪽에 놓는다</td></tr><tr><td>18</td><td>복숭아</td></tr><tr><td>19</td><td>마늘, 파, 고춧가루</td></tr><tr><td>20</td><td>햅쌀밥과 송편</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  
+    <div class="item">
+      <div class="head">
+        <span class="num">1</span>
+        <span class="qtext">추석을 부르는 또 다른 우리말 이름은 무엇일까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 한가위<span class="tag">정답</span></li><li class="">② 설날</li><li class="">③ 단오</li><li class="">④ 동지</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 추석 인사말로 '즐거운 ○○○ 보내세요!'라고 해요. 빈칸에 들어가는 말이에요.</div>
+        <div class="exp"><b>해설</b> '한'은 '크다', '가위'는 '가운데(가배)'를 뜻합니다. 즉 '8월의 한가운데 있는 큰 날'입니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">2</span>
+        <span class="qtext">추석은 음력으로 몇 월 며칠일까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="">① 음력 1월 1일</li><li class="">② 음력 5월 5일</li><li class="ok">③ 음력 8월 15일<span class="tag">정답</span></li><li class="">④ 음력 12월 25일</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 설날은 음력 1월 1일, 단오는 음력 5월 5일이에요. 추석은 이 두 명절보다 뒤에 있는 가을 명절이에요.</div>
+        <div class="exp"><b>해설</b> 추석은 음력 8월 15일로, 가을의 한가운데이자 보름달이 뜨는 날입니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">3</span>
+        <span class="qtext">추석날 아침, 조상님께 감사한 마음을 담아 지내는 명절 제사를 무엇이라고 할까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 차례<span class="tag">정답</span></li><li class="">② 세배</li><li class="">③ 성묘</li><li class="">④ 잔치</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 설날 아침에도 똑같이 지내요. 어른께 절하는 '세배'와는 다른 일이에요.</div>
+        <div class="exp"><b>해설</b> 명절 아침에 지내는 제사가 '차례'입니다. 돌아가신 날에 지내는 '기제사'와 다르고, '세배'는 어른께 드리는 절입니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">4</span>
+        <span class="qtext">추석이 오기 전에 조상님 산소에 자란 풀을 깎아 깨끗하게 하는 일을 무엇이라고 할까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 벌초<span class="tag">정답</span></li><li class="">② 모내기</li><li class="">③ 타작</li><li class="">④ 김장</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 추석 전에 어른들이 낫이나 예초기를 들고 산에 가시죠. 그때 하는 일의 이름이에요.</div>
+        <div class="exp"><b>해설</b> 산소에 자란 풀을 베어 정리하는 일로, 보통 추석 2~3주 전에 합니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">5</span>
+        <span class="qtext">추석에 온 가족이 조상님 산소를 찾아가 인사드리는 것을 무엇이라고 할까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 성묘<span class="tag">정답</span></li><li class="">② 소풍</li><li class="">③ 등산</li><li class="">④ 야영</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 같은 산에 올라가도 놀러 가는 것과는 목적이 달라요. 조상님을 찾아뵙고 살펴본다는 뜻이에요.</div>
+        <div class="exp"><b>해설</b> 산소를 찾아가 살피고 인사드리는 일입니다. 벌초와 함께 하는 경우가 많습니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">6</span>
+        <span class="qtext">그해에 새로 거두어들인 쌀을 무엇이라고 부를까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 햅쌀<span class="tag">정답</span></li><li class="">② 찹쌀</li><li class="">③ 현미</li><li class="">④ 보리쌀</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> '묵은쌀'의 반대말이에요.</div>
+        <div class="exp"><b>해설</b> 그해 새로 수확한 쌀입니다. 지난해 쌀인 '묵은쌀'과 대비됩니다. 추석 차례상에는 이 햅쌀로 지은 밥을 올립니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">7</span>
+        <span class="qtext">봄에는 모내기, 여름에는 김매기를 해요. 그렇다면 가을에 다 익은 곡식을 거두어들이는 일은 무엇이라고 할까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 추수<span class="tag">정답</span></li><li class="">② 씨뿌리기</li><li class="">③ 물주기</li><li class="">④ 거름주기</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> '가을걷이'라고도 부르는 일이에요. 한 해 농사의 마지막 순서예요.</div>
+        <div class="exp"><b>해설</b> '가을걷이'라고도 합니다. 봄 모내기 → 여름 김매기 → 가을 추수로 이어지는 한 해 농사의 마지막 순서입니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">8</span>
+        <span class="qtext">송편을 시루에 찔 때 떡 사이사이에 까는 것은 무엇일까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 솔잎<span class="tag">정답</span></li><li class="">② 깻잎</li><li class="">③ 상추</li><li class="">④ 김</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 떡끼리 달라붙지 않게 해 주고, 은은한 나무 향이 떡에 배게 해요. '송편'이라는 이름에도 그 나무가 숨어 있어요.</div>
+        <div class="exp"><b>해설</b> 솔잎은 떡이 서로 달라붙지 않게 하고 은은한 향을 더하며, 잘 상하지 않게 돕습니다. '송편(松餠)'의 '송'이 소나무를 뜻합니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">9</span>
+        <span class="qtext">송편을 반달 모양으로 빚는 데에는 어떤 마음이 담겨 있을까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 앞으로 보름달처럼 크게 잘되라는 마음<span class="tag">정답</span></li><li class="">② 달이 점점 작아지라는 마음</li><li class="">③ 비가 많이 오라는 마음</li><li class="">④ 겨울이 빨리 오라는 마음</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 보름달은 다음 날부터 조금씩 작아져요. 그럼 반달은 앞으로 어떻게 될까요?</div>
+        <div class="exp"><b>해설</b> 보름달은 다음 날부터 기울지만 반달은 앞으로 차오릅니다. 발전과 번영을 바라는 마음을 담았습니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">10</span>
+        <span class="qtext">송편 속에 넣는 재료로 알맞지 <b>않은</b> 것은 무엇일까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 김치<span class="tag">정답</span></li><li class="">② 깨</li><li class="">③ 콩</li><li class="">④ 밤</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 네 가지 중 셋은 떡 속에 넣으면 달콤하거나 고소해요. 하나만 짜고 매콤하죠.</div>
+        <div class="exp"><b>해설</b> 송편 소로는 깨, 콩, 밤, 팥처럼 달거나 고소한 재료를 씁니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">11</span>
+        <span class="qtext">추석날 밤에 사람들이 손을 잡고 둥글게 돌면서 노래하고 춤추던 놀이는 무엇일까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 강강술래<span class="tag">정답</span></li><li class="">② 제기차기</li><li class="">③ 연날리기</li><li class="">④ 썰매타기</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 임진왜란 때 우리 군사가 많아 보이게 하려고 했다는 이야기가 함께 전해지는 놀이예요.</div>
+        <div class="exp"><b>해설</b> 추석날 밤 풍요를 기원하며 즐기던 놀이로, 유네스코 인류무형문화유산입니다. 이순신 장군과 얽힌 이야기도 전해집니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">12</span>
+        <span class="qtext">다음 중 추석에 하던 놀이가 <b>아닌</b> 것은 무엇일까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 눈싸움<span class="tag">정답</span></li><li class="">② 씨름</li><li class="">③ 줄다리기</li><li class="">④ 소싸움</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 추석은 가을 명절이에요. 겨울이 되어야만 할 수 있는 놀이를 찾아보세요.</div>
+        <div class="exp"><b>해설</b> 추석에는 씨름, 줄다리기, 소싸움, 강강술래 등을 즐겼습니다. 눈싸움은 겨울 놀이입니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">13</span>
+        <span class="qtext">다음 중 추석에 먹는 음식이 <b>아닌</b> 것은 무엇일까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 팥죽<span class="tag">정답</span></li><li class="">② 송편</li><li class="">③ 토란국</li><li class="">④ 갈비찜</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 그 음식은 일 년 중 밤이 가장 긴 날인 '동지'에 먹는 음식이에요.</div>
+        <div class="exp"><b>해설</b> 팥죽은 일 년 중 밤이 가장 긴 동지에 먹는 음식입니다. 추석 음식으로는 송편, 토란국, 갈비찜 등이 있습니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">14</span>
+        <span class="qtext">차례상 차리는 규칙 '홍동백서'는 무슨 뜻일까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 붉은 과일은 동쪽, 흰 과일은 서쪽에 놓는다<span class="tag">정답</span></li><li class="">② 붉은 과일은 서쪽, 흰 과일은 동쪽에 놓는다</li><li class="">③ 붉은 과일은 위, 흰 과일은 아래에 놓는다</li><li class="">④ 붉은 과일만 놓는다</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> '홍'과 '백'은 색깔을, '동'과 '서'는 방향을 뜻하는 한자예요. 네 글자를 두 글자씩 끊어 읽어 보세요.</div>
+        <div class="exp"><b>해설</b> 붉은색 과일(사과 등)은 동쪽에, 흰색 과일(배 등)은 서쪽에 놓습니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">15</span>
+        <span class="qtext">차례상에 과일을 놓는 순서인 '조율이시'는 어떤 순서일까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 대추 - 밤 - 배 - 감<span class="tag">정답</span></li><li class="">② 감 - 배 - 밤 - 대추</li><li class="">③ 밤 - 대추 - 배 - 감</li><li class="">④ 배 - 대추 - 감 - 밤</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 네 글자가 과일 하나씩을 뜻해요. 이름에 적힌 글자 순서가 곧 놓는 순서예요.</div>
+        <div class="exp"><b>해설</b> 왼쪽부터 대추(棗) - 밤(栗) - 배(梨) - 감(柿) 순입니다. 집안에 따라 배와 감의 순서를 바꾼 '조율시이'를 쓰기도 합니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">16</span>
+        <span class="qtext">차례상에 생선을 놓을 때 지키는 '두동미서'는 무슨 뜻일까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 생선 머리는 동쪽, 꼬리는 서쪽으로 놓는다<span class="tag">정답</span></li><li class="">② 생선 머리는 서쪽, 꼬리는 동쪽으로 놓는다</li><li class="">③ 생선을 세워서 놓는다</li><li class="">④ 생선을 두 마리씩 놓는다</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> '두'는 머리, '미'는 꼬리를 뜻해요. 나머지 두 글자는 방향이고요. 두 글자씩 짝지어 읽어 보세요.</div>
+        <div class="exp"><b>해설</b> 머리 두(頭)·동녘 동(東)·꼬리 미(尾)·서녘 서(西). 생선 머리를 해 뜨는 동쪽으로 둡니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">17</span>
+        <span class="qtext">차례상 규칙 '좌포우혜'는 무슨 뜻일까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 포는 왼쪽에, 식혜는 오른쪽에 놓는다<span class="tag">정답</span></li><li class="">② 포는 오른쪽에, 식혜는 왼쪽에 놓는다</li><li class="">③ 포와 식혜를 함께 가운데 놓는다</li><li class="">④ 포와 식혜는 올리지 않는다</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> '좌'는 왼쪽, '우'는 오른쪽을 뜻해요. 방향 글자 바로 뒤에 무엇이 붙어 있는지 살펴보세요.</div>
+        <div class="exp"><b>해설</b> 왼쪽에 포(육포·북어포 등), 오른쪽에 식혜를 놓습니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">18</span>
+        <span class="qtext">옛날부터 차례상에 올리지 않는다고 전해지는 과일은 무엇일까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 복숭아<span class="tag">정답</span></li><li class="">② 사과</li><li class="">③ 배</li><li class="">④ 감</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 옛날 사람들은 그 나무의 가지로 귀신을 쫓았대요. 그래서 조상님 영혼도 오시지 못한다고 여겼어요.</div>
+        <div class="exp"><b>해설</b> 복숭아는 예로부터 귀신을 쫓는 과실로 여겨 조상의 영혼이 오지 못한다고 보았습니다. 같은 이유로 털 있는 과일과 '치'로 끝나는 생선(꽁치·갈치)도 올리지 않습니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">19</span>
+        <span class="qtext">차례상에 올리는 음식을 만들 때 넣지 않는 양념은 무엇일까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 마늘, 파, 고춧가루<span class="tag">정답</span></li><li class="">② 소금</li><li class="">③ 간장</li><li class="">④ 참기름</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 차례상에 오르는 나물이 유난히 하얗고 심심한 까닭을 떠올려 보세요.</div>
+        <div class="exp"><b>해설</b> 마늘·파·고춧가루 같은 자극적인 양념은 쓰지 않고 담백하게 조리합니다. 차례상 나물이 하얀 이유입니다.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="head">
+        <span class="num">20</span>
+        <span class="qtext">설날 차례상에는 떡국을 올려요. 그렇다면 추석 차례상에는 무엇을 올릴까요?</span>
+      </div>
+      <ol class="opts">
+        <li class="ok">① 햅쌀밥과 송편<span class="tag">정답</span></li><li class="">② 떡국</li><li class="">③ 팥죽</li><li class="">④ 국수</li>
+      </ol>
+      <div class="meta">
+        <div class="hint"><b>아이에게 준 힌트</b> 설날에 떡국을 올리는 건 새해를 맞이하는 뜻이에요. 그럼 가을 명절에는 그해 농사지은 것 중 무엇을 올렸을까요?</div>
+        <div class="exp"><b>해설</b> 설날에는 새해를 맞는 뜻으로 떡국을, 추석에는 그해 거둔 햅쌀로 지은 밥과 송편을 올립니다.</div>
+      </div>
+    </div>
+
+  <footer>
+    ※ 차례상 진설법은 지역·집안에 따라 차이가 있습니다. 본 자료는 가장 널리 알려진 방식을 기준으로 했습니다.
+  </footer>
+</div>
+</body>
+</html>
