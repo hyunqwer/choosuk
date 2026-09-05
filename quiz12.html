@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>추석 상식 퀴즈 (성인용)</title>
+<style>
+  :root{
+    --primary:#8b0000;
+    --primary-dark:#6d0000;
+    --soft:#f3e6e2;
+    --bg:#fcf8f2;
+    --card:#ffffff;
+    --text:#2f2a26;
+    --muted:#6f6862;
+    --border:#e5d7c7;
+    --gold:#c8992f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.65;
+    margin:0; padding:24px 16px 60px; display:flex; justify-content:center;
+  }
+  .container{max-width:760px; width:100%;}
+  header{
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:26px 24px; box-shadow:0 4px 16px rgba(0,0,0,.06);
+  }
+  h1{margin:0 0 6px; color:var(--primary); font-size:1.5rem; letter-spacing:-.02em;}
+  .sub{margin:0; color:var(--muted); font-size:.92rem;}
+  .quiz-card{
+    background:var(--card); border:1px solid var(--border); border-left:4px solid var(--primary);
+    border-radius:10px; padding:20px; margin-top:16px; box-shadow:0 2px 8px rgba(0,0,0,.04);
+    break-inside:avoid;
+  }
+  .q-num{font-size:.78rem; font-weight:700; color:var(--primary); letter-spacing:.06em;}
+  .question{font-weight:700; font-size:1.04rem; margin:5px 0 14px;}
+  .hint{
+    margin-top:12px; padding:12px 15px; border-radius:8px;
+    background:#fff8e7; border-left:3px solid var(--gold); font-size:.9rem; color:#7a5b22;
+  }
+  footer{margin-top:26px; text-align:center; font-size:.8rem; color:var(--muted); line-height:1.7;}
+
+  header{text-align:center;}
+  .progress{margin-top:16px; display:flex; align-items:center; justify-content:center; gap:10px; font-size:.85rem; color:var(--muted);}
+  .bar{flex:1; max-width:220px; height:6px; background:#eee3d6; border-radius:99px; overflow:hidden;}
+  .bar span{display:block; height:100%; width:0; background:var(--primary); transition:width .25s ease;}
+  .result-box{
+    display:none; margin-top:18px; padding:22px; text-align:center;
+    background:#fff8e7; border:2px solid #f0dcae; border-radius:12px;
+  }
+  .result-score{font-size:1.8rem; font-weight:800; color:var(--primary); margin:6px 0;}
+  .result-msg{font-size:.93rem; color:var(--muted);}
+  .options{display:flex; flex-direction:column; gap:8px;}
+  .option-btn{
+    padding:12px 15px; border:1px solid #ddd2c6; border-radius:8px; background:#fff;
+    text-align:left; cursor:pointer; font-size:.97rem; font-family:inherit; color:inherit;
+    transition:background .15s, border-color .15s;
+  }
+  .option-btn:hover{background:var(--soft); border-color:var(--primary);}
+  .option-btn.selected{background:var(--soft); border-color:var(--primary); font-weight:700;}
+  .hint{display:none;}
+  .hint-toggle{
+    margin-top:12px; padding:6px 13px; border:1px dashed #cbb89f; border-radius:99px;
+    background:#fffdf8; color:#8a6d3b; font-family:inherit; font-size:.86rem; cursor:pointer;
+  }
+  .hint-toggle:hover{background:#fdf3e0;}
+  .actions{margin-top:24px;}
+  .btn{
+    width:100%; padding:16px; border:none; border-radius:10px; font-size:1.05rem;
+    font-weight:700; font-family:inherit; cursor:pointer;
+  }
+  .btn-primary{background:var(--primary); color:#fff;}
+  .btn-primary:hover{background:var(--primary-dark);}
+  .btn-retry{background:#fff; color:var(--primary); border:2px solid var(--primary); margin-top:12px; display:none;}
+  .btn-retry:hover{background:var(--soft);}
+  .notice{
+    display:none; margin-top:12px; padding:11px 15px; border-radius:8px;
+    background:#fdeeee; border-left:3px solid var(--primary); color:var(--primary);
+    font-size:.9rem; font-weight:700;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🌕 추석의 의미 &amp; 차례상 차림 퀴즈</h1>
+    <p class="sub">추석과 전통 상차림 상식 12문항</p>
+    <div class="progress">
+      <span id="progressText">0 / 12 문항 선택</span>
+      <span class="bar"><span id="progressBar"></span></span>
+    </div>
+    <div id="resultBox" class="result-box">
+      <div style="font-size:.9rem; color:var(--muted);">채점 결과</div>
+      <div id="scoreText" class="result-score"></div>
+      <div id="resultMsg" class="result-msg"></div>
+    </div>
+  </header>
+
+  <div id="quizBox"></div>
+
+  <div class="actions">
+    <button type="button" class="btn btn-primary" id="submitBtn">정답 확인하기</button>
+    <button type="button" class="btn btn-retry" id="retryBtn">다시 풀기</button>
+    <div id="notice" class="notice"></div>
+  </div>
+
+  <footer>
+    ※ 차례상 진설법은 지역·가문에 따라 차이가 있으며, 본 퀴즈는 가장 널리 알려진 방식을 기준으로 합니다.<br>
+    ※ 정답과 해설은 별도의 지도용 자료에 있습니다.
+  </footer>
+</div>
+
+<script>
+const QUIZ = [
+  {
+    "q": "추석(秋夕)을 부르는 순우리말 명절 이름은 무엇일까요?",
+    "opts": [
+      "한가위",
+      "단오",
+      "백중",
+      "삼복"
+    ],
+    "a": "7ZWc6rCA7JyEfGhhbmdhd2kyMDI2",
+    "hint": "추석 인사말 '즐거운 ○○○ 보내세요'에 쓰이는 바로 그 말입니다."
+  },
+  {
+    "q": "차례상 진설 원칙 중 '붉은 과일은 동쪽에, 흰 과일은 서쪽에 놓는다'는 뜻의 용어는 무엇일까요?",
+    "opts": [
+      "어동육서",
+      "홍동백서",
+      "좌포우혜",
+      "조율이시"
+    ],
+    "a": "7ZmN64+Z67Cx7IScfGhhbmdhd2kyMDI2",
+    "hint": "네 글자 중 두 글자가 색을 뜻하는 한자입니다. '어동육서'는 생선과 육류의 자리를 정하는 다른 원칙입니다."
+  },
+  {
+    "q": "차례상 과일 줄의 배치 원칙인 '조율이시(棗栗梨柿)'의 순서로 올바른 것은?",
+    "opts": [
+      "대추 - 밤 - 배 - 감",
+      "대추 - 감 - 밤 - 배",
+      "밤 - 대추 - 감 - 배",
+      "배 - 감 - 밤 - 대추"
+    ],
+    "a": "64yA7LaUIC0g67CkIC0g67CwIC0g6rCQfGhhbmdhd2kyMDI2",
+    "hint": "네 한자가 각각 과일 하나씩을 뜻합니다. 용어에 적힌 글자 순서가 곧 진설 순서입니다."
+  },
+  {
+    "q": "'좌포우혜(左脯右醯)'의 뜻으로 올바른 것은?",
+    "opts": [
+      "포는 왼쪽에, 식혜는 오른쪽에 놓는다",
+      "포는 오른쪽에, 식혜는 왼쪽에 놓는다",
+      "생선은 왼쪽에, 고기는 오른쪽에 놓는다",
+      "국은 왼쪽에, 밥은 오른쪽에 놓는다"
+    ],
+    "a": "7Y+s64qUIOyZvOyqveyXkCwg7Iud7Zic64qUIOyYpOuluOyqveyXkCDrhpPripTri6R8aGFuZ2F3aTIwMjY=",
+    "hint": "'좌'는 왼쪽, '우'는 오른쪽입니다. 각 방향 글자 바로 뒤에 어떤 글자가 붙어 있는지 보세요."
+  },
+  {
+    "q": "차례상에 생선을 올릴 때 '머리는 동쪽, 꼬리는 서쪽으로 향하게 한다'는 뜻의 용어는?",
+    "opts": [
+      "두동미서",
+      "생동숙서",
+      "좌포우혜",
+      "어동육서"
+    ],
+    "a": "65GQ64+Z66+47IScfGhhbmdhd2kyMDI2",
+    "hint": "'생동숙서'는 날것과 익힌 것의 자리를, '어동육서'는 생선과 육류의 자리를 정하는 다른 원칙입니다."
+  },
+  {
+    "q": "차례상 1열(신위 바로 앞)에 올리는 밥과 국을 부르는 명칭의 조합으로 올바른 것은?",
+    "opts": [
+      "반(飯)과 갱(羹)",
+      "메와 탕",
+      "편과 탕",
+      "포와 혜"
+    ],
+    "a": "67CYKOmjrynqs7wg6rCxKOe+uSl8aGFuZ2F3aTIwMjY=",
+    "hint": "축문에 쓰이는 한자 이름입니다. '메'는 밥만 가리키는 순우리말이라 국과 짝이 맞지 않습니다."
+  },
+  {
+    "q": "전통적으로 차례상에 올리지 않는 과일로 알맞게 짝지어진 것은?",
+    "opts": [
+      "사과, 배",
+      "밤, 대추",
+      "복숭아, 털 있는 과일",
+      "감, 곶감"
+    ],
+    "a": "67O17Iit7JWELCDthLgg7J6I64qUIOqzvOydvHxoYW5nYXdpMjAyNg==",
+    "hint": "그 나무의 가지로 잡귀를 쫓았다는 풍습이 전해지는 과일입니다."
+  },
+  {
+    "q": "차례상에 이름이 '치'로 끝나는 생선(꽁치, 갈치, 멸치 등)을 올리지 않는 이유는 무엇일까요?",
+    "opts": [
+      "가시가 너무 많아서",
+      "예로부터 흔하고 하급으로 여겨져서",
+      "빛깔이 어두워서",
+      "쉽게 상해서"
+    ],
+    "a": "7JiI66Gc67aA7YSwIO2dlO2VmOqzoCDtlZjquInsnLzroZwg7Jes6rKo7KC47IScfGhhbmdhd2kyMDI2",
+    "hint": "차례상에는 예로부터 조기, 숭어처럼 귀하게 여기던 생선을 올렸습니다. 맛이나 신선도의 문제가 아닙니다."
+  },
+  {
+    "q": "차례 음식을 조리할 때의 양념 금기로 옳은 것은?",
+    "opts": [
+      "참기름과 들기름을 많이 쓴다",
+      "마늘, 파, 고춧가루 양념을 쓰지 않는다",
+      "간장 대신 소금만 사용한다",
+      "후추를 넉넉히 넣는다"
+    ],
+    "a": "66eI64qYLCDtjIwsIOqzoOy2p+qwgOujqCDslpHrhZDsnYQg7JOw7KeAIOyViuuKlOuLpHxoYW5nYXdpMjAyNg==",
+    "hint": "차례상에 오르는 나물이 유난히 희고 담백한 까닭을 떠올려 보세요."
+  },
+  {
+    "q": "반달 모양으로 빚어 솔잎을 깔고 시루에 쪄내는, 추석의 대표 떡은 무엇일까요?",
+    "opts": [
+      "인절미",
+      "송편",
+      "시루떡",
+      "화전"
+    ],
+    "a": "7Iah7Y64fGhhbmdhd2kyMDI2",
+    "hint": "시루떡은 켜켜이 안치는 떡, 화전은 꽃을 붙여 지지는 떡, 인절미는 쳐서 만드는 떡입니다."
+  },
+  {
+    "q": "설날 차례상과 추석 차례상에 올리는 주식(식사)의 차이로 올바른 것은?",
+    "opts": [
+      "설날은 떡국, 추석은 그해 거둔 햅쌀로 지은 밥",
+      "설날은 햅쌀밥, 추석은 떡국",
+      "설날과 추석 모두 팥죽을 올린다",
+      "설날과 추석 모두 국수를 올린다"
+    ],
+    "a": "7ISk64Kg7J2AIOuWoeq1rSwg7LaU7ISd7J2AIOq3uO2VtCDqsbDrkZQg7ZaF7IyA66GcIOyngOydgCDrsKV8aGFuZ2F3aTIwMjY=",
+    "hint": "설날에 떡국을 올리는 것은 새해를 맞는다는 뜻입니다. 그렇다면 가을 명절에는 무엇을 올렸을까요?"
+  },
+  {
+    "q": "추석날 밤 여성들이 손을 잡고 원을 그리며 노래하고 춤추던 전통 민속놀이는?",
+    "opts": [
+      "강강술래",
+      "지신밟기",
+      "놋다리밟기",
+      "차전놀이"
+    ],
+    "a": "6rCV6rCV7Iig656YfGhhbmdhd2kyMDI2",
+    "hint": "임진왜란 때 군사가 많아 보이게 하려 했다는 전설이 함께 전해지는 놀이입니다."
+  }
+];
+const enc = (s) => btoa(unescape(encodeURIComponent(s + '|hangawi2026')));
+const CIRCLED = ['①','②','③','④'];
+
+const quizBox = document.getElementById('quizBox');
+const notice = document.getElementById('notice');
+const submitBtn = document.getElementById('submitBtn');
+const retryBtn = document.getElementById('retryBtn');
+const resultBox = document.getElementById('resultBox');
+const scoreText = document.getElementById('scoreText');
+const resultMsg = document.getElementById('resultMsg');
+const progressText = document.getElementById('progressText');
+const progressBar = document.getElementById('progressBar');
+
+let order = [], picks = {}, graded = false;
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function build(){
+  picks = {}; graded = false;
+  order = shuffle(QUIZ.map((_, i) => i));
+  quizBox.innerHTML = order.map((qi, pos) => {
+    const q = QUIZ[qi];
+    return `
+      <div class="quiz-card" id="card${qi}">
+        <div class="q-num">Q${pos + 1}</div>
+        <div class="question">${q.q}</div>
+        <div class="options">
+          ${shuffle(q.opts).map((opt, j) =>
+            `<button type="button" class="option-btn" data-q="${qi}" data-t="${encodeURIComponent(opt)}">${CIRCLED[j]} ${opt}</button>`
+          ).join('')}
+        </div>
+        <button type="button" class="hint-toggle" data-hint="${qi}">💡 힌트 보기</button>
+        <div class="hint" id="hint${qi}">${q.hint}</div>
+      </div>`;
+  }).join('');
+  resultBox.style.display = 'none';
+  notice.style.display = 'none';
+  submitBtn.style.display = 'block';
+  retryBtn.style.display = 'none';
+  updateProgress();
+}
+
+function updateProgress(){
+  const n = Object.keys(picks).length;
+  progressText.textContent = `${n} / ${QUIZ.length} 문항 선택`;
+  progressBar.style.width = (n / QUIZ.length * 100) + '%';
+}
+
+quizBox.addEventListener('click', (e) => {
+  const hb = e.target.closest('.hint-toggle');
+  if (hb){
+    const box = document.getElementById('hint' + hb.dataset.hint);
+    const open = box.style.display === 'block';
+    box.style.display = open ? 'none' : 'block';
+    hb.textContent = open ? '💡 힌트 보기' : '💡 힌트 닫기';
+    return;
+  }
+  const btn = e.target.closest('.option-btn');
+  if (!btn || graded) return;
+  const qi = btn.dataset.q;
+  picks[qi] = decodeURIComponent(btn.dataset.t);
+  document.querySelectorAll(`#card${qi} .option-btn`).forEach(b => b.classList.toggle('selected', b === btn));
+  notice.style.display = 'none';
+  updateProgress();
+});
+
+submitBtn.addEventListener('click', () => {
+  const missing = order.filter(qi => !(qi in picks));
+  if (missing.length){
+    const nums = missing.map(qi => order.indexOf(qi) + 1).sort((a,b) => a-b);
+    notice.textContent = `아직 선택하지 않은 문항이 있습니다 — Q${nums.join(', Q')}`;
+    notice.style.display = 'block';
+    document.getElementById('card' + missing[0]).scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  graded = true;
+  let score = 0;
+  QUIZ.forEach((q, qi) => { if (enc(picks[qi]) === q.a) score++; });
+  const wrong = QUIZ.length - score;
+
+  scoreText.textContent = `${score} / ${QUIZ.length} 점`;
+  resultMsg.textContent =
+    (wrong === 0 ? '전 문항 정답입니다. ' :
+     wrong <= 2 ? `${wrong}문항 오답입니다. ` :
+     `${wrong}문항 오답입니다. `) + '어떤 문항인지는 표시되지 않습니다. 정답과 해설은 지도용 자료를 확인하세요.';
+  resultBox.style.display = 'block';
+  submitBtn.style.display = 'none';
+  retryBtn.style.display = 'block';
+  document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+retryBtn.addEventListener('click', () => { build(); window.scrollTo({top:0, behavior:'smooth'}); });
+
+build();
+</script>
+</body>
+</html>
