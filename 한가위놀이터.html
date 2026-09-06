@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한가위 놀이터</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap">
+<style>
+:root{
+  --night:#101728; --night2:#18223a; --night3:#243250; --night4:#31426a;
+  --moon:#f6e7c1; --moondim:#bdb094;
+  --brass:#e0aa4e; --brassdim:#8d6c33;
+  --lacquer:#6b2f27; --lacquer2:#8d4636;
+  --hanji:#f1e7d3; --hanji2:#e0d2b6; --ink:#2b2118;
+  --ok:#84c28f; --warn:#eb9370;
+  --display:"Gowun Batang",'Nanum Myeongjo',serif;
+  --body:"Gowun Dodum",'Malgun Gothic',sans-serif;
+  --hand:"Gaegu",'Malgun Gothic',cursive;
+  --r:14px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--night);
+  background-image:
+    radial-gradient(1200px 500px at 50% -12%, #2b3a5e 0%, rgba(43,58,94,0) 62%),
+    radial-gradient(700px 400px at 88% 108%, #221a2e 0%, rgba(34,26,46,0) 60%);
+  background-attachment:fixed;
+  color:var(--moon);font-family:var(--body);line-height:1.7;-webkit-text-size-adjust:100%;
+}
+button{font-family:inherit;font-size:inherit;cursor:pointer;border:0;background:none;color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:8px}
+.app{max-width:660px;margin:0 auto;padding:14px 16px 56px}
+
+/* ══ 공용 상단바 ══ */
+.top{display:flex;align-items:center;gap:12px;padding:6px 0 14px;position:sticky;top:0;z-index:20;
+  background:linear-gradient(180deg,var(--night) 62%,rgba(16,23,40,0));backdrop-filter:blur(3px)}
+.brand{display:flex;align-items:center;gap:11px;flex:1;min-width:0;text-align:left}
+.moonwrap{position:relative;flex:none;width:40px;height:40px}
+.moonwrap::before{content:'';position:absolute;inset:-8px;border-radius:50%;
+  background:radial-gradient(circle,rgba(246,231,193,.28),rgba(246,231,193,0) 70%)}
+.moon{position:relative;width:40px;height:40px;border-radius:50%;background:var(--moon);
+  overflow:hidden;box-shadow:inset -3px -3px 0 rgba(0,0,0,.06)}
+.moon::after{content:'';position:absolute;inset:-1px;border-radius:50%;background:var(--night);
+  transform:translateX(calc(var(--p,1) * 102%));transition:transform .55s cubic-bezier(.4,1.4,.5,1)}
+.brandtxt{min-width:0}
+.brandtxt .k{font-size:10.5px;letter-spacing:.2em;color:var(--brass);font-weight:700}
+.brandtxt .v{font-family:var(--display);font-weight:700;font-size:17px;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav{display:flex;gap:6px;flex:none}
+.nav button{padding:7px 12px;border-radius:999px;border:1px solid var(--night3);font-size:13px;
+  color:var(--moondim);font-weight:700;white-space:nowrap}
+.nav button[aria-current="page"]{background:var(--brass);border-color:var(--brass);color:#2a1a06}
+
+.page{display:none}
+.page.on{display:block;animation:fade .35s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ══ 공용 부품 ══ */
+.btn{display:block;width:100%;margin-top:16px;padding:15px;border-radius:var(--r);
+  background:linear-gradient(180deg,#eab861,var(--brass));color:#2a1a06;
+  font-family:var(--display);font-weight:700;font-size:18px;
+  box-shadow:0 6px 0 #8d6c33,0 12px 22px rgba(0,0,0,.34);transition:transform .12s,box-shadow .12s}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #8d6c33,0 6px 12px rgba(0,0,0,.3)}
+.btn.ghost{background:none;border:1px solid var(--night3);color:var(--moondim);box-shadow:none;
+  font-size:15px;padding:12px}
+.btn.ghost:active{transform:none}
+.btnrow{display:flex;gap:10px}
+.btnrow .btn{flex:1}
+.foot{margin-top:26px;text-align:center;font-size:11.5px;color:rgba(189,176,148,.55);line-height:1.75}
+
+/* ══ HOME ══ */
+.hero{border:1px solid var(--night3);border-radius:22px;padding:28px 22px 24px;text-align:center;
+  background:linear-gradient(170deg,rgba(36,50,80,.72),rgba(16,23,40,.5))}
+.hero .sub{font-size:12px;letter-spacing:.24em;color:var(--brass);font-weight:700}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,8.6vw,42px);
+  margin:8px 0 8px;letter-spacing:-.01em;text-wrap:balance}
+.hero p{margin:0 auto;max-width:28em;color:var(--moondim);font-size:15px}
+.dday{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:8px 16px;
+  border-radius:999px;border:1px solid var(--night4);background:rgba(16,23,40,.55);
+  font-size:13.5px;color:var(--moon)}
+.dday b{font-family:var(--display);color:var(--brass);font-size:16px}
+.menu{display:grid;gap:12px;margin-top:16px}
+.mcard{display:block;width:100%;text-align:left;border:1px solid var(--night3);border-radius:18px;
+  padding:20px 20px 18px;background:rgba(24,34,58,.62);transition:transform .14s,border-color .14s}
+.mcard:hover{border-color:var(--night4);transform:translateY(-2px)}
+.mcard:active{transform:translateY(1px)}
+.mcard .row{display:flex;align-items:flex-start;gap:14px}
+.mcard .ico{flex:none;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;
+  justify-content:center;font-size:27px;background:rgba(224,170,78,.13);border:1px solid var(--night4)}
+.mcard i{font-style:normal;font-size:10px;letter-spacing:.2em;color:var(--brass);font-weight:700}
+.mcard b{display:block;font-family:var(--display);font-size:21px;margin:1px 0 3px}
+.mcard span{display:block;font-size:13.5px;color:var(--moondim);line-height:1.55}
+.mcard .facts{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.mcard .facts em{font-style:normal;font-size:11.5px;padding:4px 9px;border-radius:999px;
+  background:rgba(16,23,40,.7);border:1px solid var(--night3);color:var(--moondim)}
+.forparent{margin-top:16px;border:1px solid var(--night3);border-radius:var(--r);padding:16px 18px;
+  background:rgba(16,23,40,.45)}
+.forparent b{display:block;font-family:var(--display);font-size:15.5px;color:var(--brass);margin-bottom:4px}
+.forparent p{margin:6px 0 0;font-size:13.5px;color:var(--moondim);line-height:1.65}
+.forparent p:first-of-type{margin-top:0}
+
+/* ══ QUIZ ══ */
+.qscreen{display:none}
+.qscreen.on{display:block}
+.qz-head{border:1px solid var(--night3);border-radius:20px;padding:22px 20px;text-align:center;
+  background:linear-gradient(170deg,rgba(36,50,80,.7),rgba(16,23,40,.5))}
+.qz-head h2{font-family:var(--display);font-weight:700;font-size:26px;margin:0 0 6px}
+.qz-head p{margin:0;font-size:14px;color:var(--moondim)}
+.qz-name{margin-top:16px;display:flex;gap:9px;align-items:center;justify-content:center;flex-wrap:wrap;
+  font-size:13px;color:var(--moondim)}
+.qz-name input{padding:9px 14px;border-radius:999px;border:1px solid var(--night3);width:170px;
+  text-align:center;background:rgba(16,23,40,.75);color:var(--moon);font-family:var(--hand);font-size:19px}
+.qz-name input::placeholder{font-family:var(--body);font-size:13px;color:rgba(189,187,154,.45)}
+.qz-prog{margin-top:15px;display:flex;align-items:center;justify-content:center;gap:10px;
+  font-size:12.5px;color:var(--moondim)}
+.qz-bar{flex:1;max-width:200px;height:7px;background:rgba(16,23,40,.8);border-radius:999px;overflow:hidden}
+.qz-bar span{display:block;height:100%;width:0;background:var(--brass);transition:width .25s ease}
+.qz-card{border:1px solid var(--night3);border-radius:var(--r);padding:18px 18px 16px;margin-top:12px;
+  background:rgba(24,34,58,.58)}
+.qz-no{display:inline-block;background:var(--brass);color:#2a1a06;font-size:11.5px;font-weight:700;
+  padding:2px 11px;border-radius:999px;letter-spacing:.04em}
+.qz-q{font-family:var(--display);font-weight:700;font-size:18px;line-height:1.45;margin:9px 0 13px;
+  text-wrap:balance}
+.qz-opts{display:flex;flex-direction:column;gap:8px}
+.qz-opt{padding:12px 15px;border:1px solid var(--night4);border-radius:11px;text-align:left;
+  font-size:15px;background:rgba(16,23,40,.5);color:var(--moon);transition:background .14s,border-color .14s,transform .1s}
+.qz-opt:hover{background:rgba(224,170,78,.09);border-color:var(--brassdim)}
+.qz-opt:active{transform:scale(.995)}
+.qz-opt.sel{background:var(--brass);border-color:var(--brass);color:#2a1a06;font-weight:700}
+.qz-hintbtn{margin-top:12px;padding:6px 13px;border:1px dashed var(--brassdim);border-radius:999px;
+  color:var(--brass);font-size:12.5px;font-weight:700;background:rgba(224,170,78,.06)}
+.qz-hint{display:none;margin-top:9px;padding:11px 14px;border-radius:11px;font-size:13.5px;
+  background:rgba(224,170,78,.1);border-left:3px solid var(--brass);color:#f0dcb8;line-height:1.6}
+.qz-notice{display:none;margin-top:11px;padding:11px 15px;border-radius:11px;font-size:13.5px;
+  font-weight:700;background:rgba(235,147,112,.14);border-left:3px solid var(--warn);color:#f6ded4}
+.qz-again{border:1px solid var(--night3);border-radius:20px;padding:36px 24px;text-align:center;
+  background:rgba(24,34,58,.6)}
+.qz-again .em{font-size:44px;line-height:1}
+.qz-wrong{font-family:var(--display);font-size:30px;font-weight:700;color:var(--brass);margin:12px 0 4px}
+.qz-again p{color:var(--moondim);font-size:14.5px;margin:5px 0}
+.qz-again p.hi{color:var(--moon);font-weight:700;margin-top:14px}
+
+/* 상장 — 밤하늘 위에 놓인 한지 */
+.cert{background:linear-gradient(170deg,#fbf3e0,#f1e2c2);color:var(--ink);
+  border:4px double #b08a3c;border-radius:18px;padding:36px 24px;text-align:center;
+  box-shadow:0 18px 40px rgba(0,0,0,.5)}
+.cert .seal{font-size:46px;line-height:1}
+.cert h3{font-family:var(--display);font-size:25px;font-weight:700;color:var(--lacquer);margin:10px 0 3px}
+.cert .kicker{font-size:11.5px;letter-spacing:.42em;color:#8a7754}
+.cert .who{font-family:var(--hand);font-size:34px;font-weight:700;margin:20px 0 2px;
+  display:inline-block;padding:0 18px 2px;border-bottom:3px solid #c9a24a}
+.cert .body{font-size:15.5px;line-height:1.95;margin:16px 0 4px}
+.cert .body b{color:var(--lacquer);font-size:18px}
+.cert .date{margin-top:18px;font-size:13.5px;color:#8a7754;letter-spacing:.04em}
+.cert .guide{margin-top:20px;padding:12px 14px;border-radius:11px;background:#fffdf6;
+  border:2px dashed #ccab63;font-size:13px;color:#8a6a25;font-weight:700;line-height:1.6}
+
+/* 잠금 카드 */
+.lock{margin-top:22px;border:1px dashed var(--night4);border-radius:var(--r);padding:16px 18px;
+  background:rgba(16,23,40,.5)}
+.lock .lh{display:flex;align-items:center;gap:10px}
+.lock .lh span{font-size:20px}
+.lock .lh b{font-family:var(--display);font-size:15.5px;color:var(--moon)}
+.lock p{margin:7px 0 0;font-size:12.5px;color:var(--moondim);line-height:1.6}
+.lock form{display:flex;gap:8px;margin-top:12px}
+.lock input{flex:1;min-width:0;padding:11px 14px;border-radius:11px;border:1px solid var(--night3);
+  background:rgba(16,23,40,.8);color:var(--moon);font-family:var(--body);font-size:15px;text-align:center}
+.lock input::placeholder{color:rgba(189,187,154,.42);font-size:13.5px}
+.lock button[type=submit]{flex:none;padding:11px 18px;border-radius:11px;background:var(--brass);
+  color:#2a1a06;font-weight:700;font-size:14px;font-family:var(--display)}
+.lock .err{display:none;margin-top:9px;font-size:12.5px;color:var(--warn);font-weight:700}
+.lock.shake{animation:shake .42s}
+@keyframes shake{10%,90%{transform:translateX(-3px)}30%,70%{transform:translateX(5px)}50%{transform:translateX(-5px)}}
+
+/* 해설 — 인쇄용 종이 */
+.sol-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.sol-top h2{font-family:var(--display);font-size:23px;margin:0;flex:1;min-width:0}
+.sol-top button{padding:8px 14px;border-radius:999px;border:1px solid var(--night3);font-size:13px;
+  color:var(--moondim);font-weight:700}
+.sheet{background:#fbf9f3;color:#2b2f36;border-radius:14px;padding:22px 20px;
+  box-shadow:0 16px 36px rgba(0,0,0,.45)}
+.sheet .warn{padding:11px 14px;border-radius:8px;background:#fdeeee;border-left:4px solid #b3392c;
+  color:#8d2c22;font-size:13px;font-weight:700;margin-bottom:16px}
+.sheet h3{font-family:var(--display);font-size:16px;color:#1f3a63;margin:0 0 6px}
+.sheet .tblwrap{overflow-x:auto;margin-bottom:20px}
+.sheet table{width:100%;border-collapse:collapse;font-size:13px;min-width:340px}
+.sheet th,.sheet td{border:1px solid #e2e6ec;padding:6px 9px;text-align:left}
+.sheet th{background:#f0f3f7;color:#5c6470;font-weight:700}
+.sheet td:first-child,.sheet th:first-child{width:44px;text-align:center;font-weight:700}
+.sitem{border:1px solid #e2e6ec;border-radius:10px;padding:15px 16px;margin-top:12px;background:#fff;
+  break-inside:avoid}
+.sitem .sh{display:flex;gap:10px;align-items:flex-start}
+.sitem .n{flex:none;width:25px;height:25px;border-radius:50%;background:#1f3a63;color:#fff;
+  font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.sitem .sq{font-weight:700;font-size:15px;line-height:1.5}
+.sitem ol{list-style:none;margin:11px 0 0;padding:0 0 0 35px;display:flex;flex-direction:column;gap:4px}
+.sitem li{padding:6px 11px;border:1px solid #e2e6ec;border-radius:7px;font-size:13.5px;
+  color:#4b5259;background:#fbfcfd}
+.sitem li.ok{background:#eef8f1;border-color:#1e7a45;color:#1e7a45;font-weight:700}
+.sitem li.ok::after{content:'정답';float:right;font-size:10.5px;background:#1e7a45;color:#fff;
+  padding:1px 7px;border-radius:999px;font-weight:700}
+.sitem .meta{margin:12px 0 0 35px;display:flex;flex-direction:column;gap:7px}
+.sitem .hh,.sitem .ee{padding:9px 12px;border-radius:8px;font-size:13px;line-height:1.6}
+.sitem .hh{background:#fff8e7;border-left:3px solid #e0a43c;color:#7a5b22}
+.sitem .ee{background:#f2f5fa;border-left:3px solid #1f3a63;color:#3a4453}
+.sitem .hh b,.sitem .ee b{margin-right:6px}
+.sitem .hh b{color:#a9791f}
+.sitem .ee b{color:#1f3a63}
+
+/* ══ GAME ══ */
+.gscreen{display:none}
+.gscreen.on{display:block;animation:fade .4s ease both}
+#page-game .byeongpung{height:50px;border-radius:10px 10px 4px 4px;margin:0 6px;
+  background:repeating-linear-gradient(90deg,rgba(0,0,0,.20) 0 1px,rgba(0,0,0,0) 1px 20%),
+    linear-gradient(180deg,#3a2a3f,#2a1f30);
+  border:1px solid #4d3a52;border-bottom:0;display:flex;align-items:center;justify-content:center;gap:9px}
+#page-game .byeongpung .tag{font-family:var(--display);font-size:13px;color:#d7c3a4;letter-spacing:.08em}
+#page-game .byeongpung .dot{width:5px;height:5px;border-radius:50%;background:var(--brass);opacity:.75}
+#page-game .sang{background:linear-gradient(180deg,var(--lacquer2),var(--lacquer));
+  border:3px solid #4d211b;border-radius:16px;padding:9px;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.13),0 14px 26px rgba(0,0,0,.42)}
+#page-game .legs{display:flex;justify-content:space-between;margin:0 26px}
+#page-game .legs i{display:block;width:16px;height:12px;background:#4d211b;border-radius:0 0 5px 5px}
+#page-game .rowline{display:grid;grid-template-columns:42px repeat(5,1fr);gap:5px;margin-bottom:5px}
+#page-game .rowline:last-child{margin-bottom:0}
+#page-game .rlab{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.20);border-radius:8px;font-size:12px;font-weight:700;color:#f0d9b4;
+  font-family:var(--display);padding:2px}
+#page-game .rlab small{font-size:8.5px;font-weight:400;color:var(--brass);opacity:0;
+  transition:opacity .4s;line-height:1.15;text-align:center}
+#page-game .rlab.learned small{opacity:1}
+#page-game .cell{position:relative;min-height:56px;border-radius:9px;background:rgba(0,0,0,.13);
+  border:1px dashed rgba(241,231,211,.22);display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:1px;padding:3px 1px;font-size:10.5px;color:rgba(241,231,211,.5);
+  transition:transform .18s,box-shadow .18s,background .2s}
+#page-game .cell .em{font-size:22px;line-height:1.1}
+#page-game .cell.filled{background:var(--hanji);border:1px solid var(--hanji2);border-style:solid;
+  color:var(--ink);font-weight:700;box-shadow:0 2px 5px rgba(0,0,0,.28)}
+#page-game .cell.pop{animation:pop .45s cubic-bezier(.34,1.7,.5,1)}
+@keyframes pop{0%{transform:scale(.3) rotate(-8deg);opacity:0}100%{transform:none;opacity:1}}
+#page-game .cell.target{background:rgba(224,170,78,.16);border:2px dashed var(--brass);
+  color:var(--brass);animation:glow 1.5s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(224,170,78,.4)}50%{box-shadow:0 0 0 7px rgba(224,170,78,0)}}
+#page-game .cell.pick{cursor:pointer}
+#page-game .cell.pick:active{transform:scale(.94)}
+#page-game .cell.sel{outline:3px solid var(--brass);outline-offset:1px}
+#page-game .cell.shake{animation:shake .42s}
+#page-game .q{margin-top:16px;background:rgba(36,50,80,.5);border:1px solid var(--night3);
+  border-radius:var(--r);padding:16px}
+#page-game .qtxt{font-family:var(--display);font-size:19px;font-weight:700;line-height:1.42;
+  text-wrap:balance;margin:0}
+#page-game .qhint{margin:6px 0 0;font-size:13px;color:var(--moondim)}
+#page-game .opts{display:flex;gap:9px;margin-top:14px}
+#page-game .opt{flex:1;background:var(--hanji);color:var(--ink);border-radius:12px;padding:12px 5px 10px;
+  display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:700;font-size:13px;
+  box-shadow:0 4px 0 #b9a887;transition:transform .12s,box-shadow .12s}
+#page-game .opt .em{font-size:30px;line-height:1.05}
+#page-game .opt:active{transform:translateY(3px);box-shadow:0 1px 0 #b9a887}
+#page-game .opt.wrong{animation:shake .42s;background:#e8c3b4}
+#page-game .opt.txtonly{font-family:var(--display);font-size:15px;padding:15px 8px}
+#page-game .showfood{flex:0 0 108px;background:var(--hanji);color:var(--ink);border-radius:12px;
+  padding:12px 5px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;
+  font-weight:700;font-size:13px;animation:pop .4s cubic-bezier(.34,1.7,.5,1)}
+#page-game .showfood .em{font-size:32px;line-height:1.05}
+#page-game .fb{margin-top:13px;border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.55;
+  border-left:4px solid var(--ok);background:rgba(132,194,143,.13);color:#dff0e2}
+#page-game .fb.no{border-left-color:var(--warn);background:rgba(235,147,112,.13);color:#f6ded4}
+#page-game .fb b{color:var(--moon)}
+#page-game .tabs{display:flex;gap:6px;margin-top:16px;overflow-x:auto;padding-bottom:3px}
+#page-game .tab{flex:none;padding:8px 13px;border-radius:999px;border:1px solid var(--night3);
+  font-size:13px;color:var(--moondim);white-space:nowrap;font-weight:700}
+#page-game .tab[aria-selected="true"]{background:var(--brass);border-color:var(--brass);color:#2a1a06}
+#page-game .tray{display:grid;grid-template-columns:repeat(auto-fill,minmax(66px,1fr));gap:7px;
+  margin-top:10px;max-height:212px;overflow-y:auto;padding:3px}
+#page-game .fitem{background:var(--hanji);color:var(--ink);border-radius:11px;padding:9px 3px 7px;
+  display:flex;flex-direction:column;align-items:center;gap:1px;font-size:11.5px;font-weight:700;
+  box-shadow:0 3px 0 #b9a887;transition:transform .1s,box-shadow .1s}
+#page-game .fitem .em{font-size:24px;line-height:1.05}
+#page-game .fitem:active{transform:translateY(2px);box-shadow:0 1px 0 #b9a887}
+#page-game .fields{display:grid;gap:10px;margin-top:16px}
+#page-game .field label{display:block;font-size:12px;letter-spacing:.14em;color:var(--brass);
+  font-weight:700;margin-bottom:5px}
+#page-game .field input{width:100%;padding:12px 13px;border-radius:11px;border:1px solid var(--night3);
+  background:rgba(16,23,40,.7);color:var(--moon);font-family:var(--hand);font-size:20px}
+#page-game .field input::placeholder{color:rgba(189,187,154,.45);font-family:var(--body);font-size:14px}
+#page-game .counter{font-size:12.5px;color:var(--moondim);text-align:right;margin-top:8px}
+#card{display:block;width:100%;max-width:420px;margin:0 auto;border-radius:18px;
+  box-shadow:0 18px 40px rgba(0,0,0,.5)}
+#page-game .note{margin-top:12px;font-size:13px;color:var(--moondim);text-align:center}
+#page-game .ask{margin-top:18px;border:1px solid var(--night3);border-radius:var(--r);padding:15px 16px;
+  background:rgba(36,50,80,.42)}
+#page-game .ask b{display:block;font-family:var(--display);font-size:16px;color:var(--brass);margin-bottom:4px}
+#page-game .ask p{margin:0;font-size:14px;color:var(--moondim);line-height:1.6}
+#page-game .ask p+p{margin-top:6px}
+#page-game .steps{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0 4px;text-align:left}
+#page-game .stepcard{background:rgba(16,23,40,.55);border:1px solid var(--night3);
+  border-radius:var(--r);padding:13px 14px}
+#page-game .stepcard b{display:block;font-family:var(--display);font-size:16px;margin-bottom:2px}
+#page-game .stepcard span{font-size:13px;color:var(--moondim);line-height:1.45}
+#page-game .stepcard i{font-style:normal;font-size:10px;letter-spacing:.18em;color:var(--brass);font-weight:700}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(max-width:400px){
+  #page-game .rowline{grid-template-columns:34px repeat(5,1fr);gap:4px}
+  #page-game .cell{min-height:50px;font-size:9.5px}
+  #page-game .cell .em{font-size:19px}
+  #page-game .steps{grid-template-columns:1fr}
+  .brandtxt .v{font-size:15px}
+  .nav button{padding:7px 10px;font-size:12px}
+}
+@media print{
+  body{background:#fff;color:#000;background-image:none}
+  .top,.nav,.sol-top button,.btn,.foot{display:none!important}
+  .app{max-width:none;padding:0}
+  .sheet{box-shadow:none;border-radius:0;padding:0;background:#fff}
+  .sitem{break-inside:avoid;page-break-inside:avoid}
+}
+</style>
+
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <button class="brand" id="brand" type="button">
+      <span class="moonwrap"><span class="moon" id="moon" style="--p:1"></span></span>
+      <span class="brandtxt">
+        <span class="k" id="stage">한가위 · 2026</span>
+        <span class="v" id="stagev">한가위 놀이터</span>
+      </span>
+    </button>
+    <nav class="nav">
+      <button type="button" data-go="quiz">퀴즈</button>
+      <button type="button" data-go="game">한상</button>
+    </nav>
+  </div>
+
+  <!-- ══════════ HOME ══════════ -->
+  <section class="page on" id="page-home">
+    <div class="hero">
+      <div class="sub">CHUSEOK 2026 · 9월 25일</div>
+      <h1>한가위 놀이터</h1>
+      <p>추석이 어떤 날인지 알아보고, 오늘의 내 추석상을 차려 보는 두 가지 놀이.</p>
+      <div class="dday">추석까지 <b id="dday">D-19</b></div>
+    </div>
+
+    <div class="menu">
+      <button class="mcard" type="button" data-go="quiz">
+        <div class="row">
+          <div class="ico">🏅</div>
+          <div>
+            <i>PLAY 01</i>
+            <b>추석 상식 퀴즈</b>
+            <span>추석의 뜻, 송편, 놀이, 차례상까지 20문제. 모두 맞히면 상장이 나와요.</span>
+          </div>
+        </div>
+        <div class="facts"><em>20문항</em><em>힌트 있음</em><em>만점 상장</em><em>약 10분</em></div>
+      </button>
+
+      <button class="mcard" type="button" data-go="game">
+        <div class="row">
+          <div class="ico">🌕</div>
+          <div>
+            <i>PLAY 02</i>
+            <b>추석 한상 챌린지</b>
+            <span>옛날 차례상 5열을 7개 미션으로 배우고, 좋아하는 음식으로 나만의 상을 차려요.</span>
+          </div>
+        </div>
+        <div class="facts"><em>7미션</em><em>음식 46종</em><em>한상 카드</em><em>약 8분</em></div>
+      </button>
+    </div>
+
+    <div class="forparent">
+      <b>부모님께</b>
+      <p>두 놀이 모두 감점이나 시간 제한이 없습니다. 퀴즈는 틀린 문제를 알려주지 않고 다시 풀게 해서, 힌트를 읽고 스스로 찾도록 했습니다.</p>
+      <p>정답과 해설은 <strong>퀴즈 화면 맨 아래</strong>에 잠겨 있습니다. 아이가 보지 않도록 비밀번호를 걸어 두었어요.</p>
+      <p>차례상 차림은 지역과 집안마다 다릅니다. 두 놀이 모두 “이렇게 차리기도 했다”는 관찰자 시점으로 썼습니다.</p>
+    </div>
+
+    <p class="foot">한가위 놀이터 · 2026<br>차례상 차림은 지역과 집안에 따라 다릅니다.</p>
+  </section>
+
+  <!-- ══════════ QUIZ ══════════ -->
+  <section class="page" id="page-quiz">
+
+    <div class="qscreen on" id="qz-play">
+      <div class="qz-head">
+        <h2>🌕 추석 상식 퀴즈</h2>
+        <p>추석의 뜻과 차례상에 대한 20문제예요.<br>모두 맞히면 상장이 나와요!</p>
+        <div class="qz-name">
+          <label for="nameInput">내 이름</label>
+          <input id="nameInput" type="text" maxlength="12" placeholder="이름을 적어요" autocomplete="off">
+        </div>
+        <div class="qz-prog">
+          <span id="progressText">0 / 20 문제 풀었어요</span>
+          <span class="qz-bar"><span id="progressBar"></span></span>
+        </div>
+      </div>
+      <div id="quizBox"></div>
+      <button type="button" class="btn" id="submitBtn">다 풀었어요! 채점하기</button>
+      <div id="notice" class="qz-notice"></div>
+    </div>
+
+    <div class="qscreen" id="qz-again">
+      <div class="qz-again">
+        <div class="em">🌙</div>
+        <div class="qz-wrong" id="wrongText"></div>
+        <p>어떤 문제를 틀렸는지는 알려주지 않아요.</p>
+        <p>힌트를 다시 읽어 보고 한 번 더 도전해 볼까요?</p>
+        <p class="hi">20문제를 모두 맞히면 상장이 나와요! 🏅</p>
+      </div>
+      <button type="button" class="btn" id="retryBtn1">다시 풀기</button>
+      <div class="btnrow"><button type="button" class="btn ghost" data-go="game">한상 챌린지 하러 가기</button></div>
+    </div>
+
+    <div class="qscreen" id="qz-cert">
+      <div class="cert">
+        <div class="seal">🏅</div>
+        <h3>한가위 상식왕</h3>
+        <div class="kicker">추석상식퀴즈</div>
+        <div class="who" id="certName">우리 아이</div>
+        <div class="body">위 어린이는 추석 상식 퀴즈<br><b>20문제를 모두 맞혀</b><br>한가위 상식왕이 되었기에<br>이 상장을 드립니다.</div>
+        <div class="date" id="certDate"></div>
+        <div class="guide">📸 이 화면을 캡처해서 부모님께 보여 드리세요!</div>
+      </div>
+      <button type="button" class="btn" data-go="game">이제 나만의 추석상 차리러 가기</button>
+      <button type="button" class="btn ghost" id="retryBtn2">퀴즈 다시 풀기</button>
+    </div>
+
+    <div class="qscreen" id="qz-sol">
+      <div class="sol-top">
+        <h2>정답 및 해설</h2>
+        <button type="button" id="solPrint">인쇄</button>
+        <button type="button" id="solBack">퀴즈로</button>
+      </div>
+      <div class="sheet" id="solSheet"></div>
+    </div>
+
+    <div class="lock" id="lockBox">
+      <div class="lh"><span>🔒</span><b>부모님·선생님용 · 정답과 해설</b></div>
+      <p>20문항의 정답, 아이에게 준 힌트, 그리고 배경 해설이 들어 있습니다. 비밀번호는 이 명절의 이름 두 글자예요.</p>
+      <form id="lockForm">
+        <input id="lockPw" type="password" inputmode="text" placeholder="비밀번호" autocomplete="off">
+        <button type="submit">열기</button>
+      </form>
+      <div class="err" id="lockErr">비밀번호가 달라요. 이 명절의 이름 두 글자를 한글로 적어 주세요.</div>
+    </div>
+
+    <p class="foot">※ 차례상 차리는 법은 지역과 집안에 따라 조금씩 달라요.<br>이 퀴즈는 가장 널리 알려진 방식을 기준으로 했어요.</p>
+  </section>
+
+  <!-- ══════════ GAME ══════════ -->
+  <section class="page" id="page-game">
+
+    <section class="gscreen on" id="s-intro">
+      <div class="hero">
+        <div class="sub">PLAY 02</div>
+        <h1>추석 한상 챌린지</h1>
+        <p>옛날 사람들이 차렸던 추석상을 배우고,<br>오늘의 내가 차리고 싶은 상을 만들어 봐요.</p>
+        <div class="steps">
+          <div class="stepcard"><i>ROUND 1</i><b>옛날 상 배우기</b><span>1열부터 5열까지, 어디에 무엇을 놓았는지 7개의 미션으로 익혀요.</span></div>
+          <div class="stepcard"><i>ROUND 2</i><b>내 상 차리기</b><span>정답이 없어요. 좋아하는 음식으로 나만의 추석상을 차려요.</span></div>
+        </div>
+      </div>
+      <button class="btn" id="go1">시작하기</button>
+      <p class="foot">달이 차오르면 ROUND 1이 끝나요 🌕</p>
+    </section>
+
+    <section class="gscreen" id="s-round1">
+      <div class="byeongpung"><span class="dot"></span><span class="tag">병풍 · 조상님 자리</span><span class="dot"></span></div>
+      <div class="sang" id="board1"></div>
+      <div class="legs"><i></i><i></i></div>
+      <div class="q" id="qbox"></div>
+    </section>
+
+    <section class="gscreen" id="s-round2">
+      <div class="byeongpung"><span class="dot"></span><span class="tag" id="b2tag">내가 차린 한가위 상</span><span class="dot"></span></div>
+      <div class="sang" id="board2"></div>
+      <div class="legs"><i></i><i></i></div>
+      <p class="counter" id="cnt">빈 자리를 눌러 고른 뒤, 아래에서 음식을 골라요</p>
+      <div class="tabs" id="tabs" role="tablist"></div>
+      <div class="tray" id="tray"></div>
+      <div class="fields">
+        <div class="field"><label for="tname">상 이름</label>
+          <input id="tname" maxlength="16" placeholder="예: 치킨 가득 행복상"></div>
+        <div class="field"><label for="twho">함께 먹고 싶은 사람</label>
+          <input id="twho" maxlength="20" placeholder="예: 할머니, 사촌 동생"></div>
+        <div class="field"><label for="tme">내 이름</label>
+          <input id="tme" maxlength="10" placeholder="예: 지우"></div>
+      </div>
+      <button class="btn" id="done">한상 완성하기</button>
+    </section>
+
+    <section class="gscreen" id="s-result">
+      <canvas id="card" width="880" height="1180"></canvas>
+      <p class="note">카드를 길게 누르거나 마우스 오른쪽 버튼을 눌러 이미지를 저장할 수 있어요.</p>
+      <div class="ask">
+        <b>이제 가족에게 물어볼 차례</b>
+        <p>“우리 집은 추석에 무슨 음식을 올려요?”</p>
+        <p>“할머니 어릴 때 추석상에는 뭐가 있었어요?”</p>
+        <p>집집마다 상은 다 달라요. 우리 집 상이 우리 집 정답이에요.</p>
+      </div>
+      <div class="btnrow">
+        <button class="btn ghost" id="again2">상 다시 차리기</button>
+        <button class="btn ghost" data-go="quiz">퀴즈 풀러 가기</button>
+      </div>
+      <p class="foot">차례상 차림은 지역과 집안마다 다릅니다.<br>이 게임은 널리 알려진 한 가지 방식을 소개할 뿐이에요.</p>
+    </section>
+  </section>
+</div>
+
+<script>
+/* ════════════ 공용 ════════════ */
+var $ = function(id){ return document.getElementById(id); };
+var CHUSEOK = new Date(2026,8,25);
+
+function setMoon(p){ $('moon').style.setProperty('--p', p); }
+function setStage(k,v){ $('stage').textContent=k; $('stagev').textContent=v; }
+
+var PAGES={home:['한가위 · 2026','한가위 놀이터'],
+           quiz:['PLAY 01 · 상식 퀴즈','추석 상식 퀴즈'],
+           game:['PLAY 02 · 한상 챌린지','추석 한상 챌린지']};
+var current='home';
+
+function goPage(name){
+  current=name;
+  var ps=document.querySelectorAll('.page'),i;
+  for(i=0;i<ps.length;i++) ps[i].classList.remove('on');
+  $('page-'+name).classList.add('on');
+  var nb=document.querySelectorAll('.nav button');
+  for(i=0;i<nb.length;i++){
+    if(nb[i].dataset.go===name) nb[i].setAttribute('aria-current','page');
+    else nb[i].removeAttribute('aria-current');
+  }
+  setStage(PAGES[name][0],PAGES[name][1]);
+  if(name==='home') setMoon(1);
+  if(name==='quiz') updateProgress();
+  if(name==='game') setMoon(gameMoon);
+  if(location.hash!=='#'+name) history.replaceState(null,'','#'+name);
+  window.scrollTo(0,0);
+}
+document.addEventListener('click',function(e){
+  var b=e.target.closest('[data-go]');
+  if(b){ goPage(b.dataset.go); }
+});
+$('brand').addEventListener('click',function(){ goPage('home'); });
+
+(function(){
+  var today=new Date(); today.setHours(0,0,0,0);
+  var diff=Math.round((CHUSEOK-today)/86400000);
+  $('dday').textContent = diff>0 ? 'D-'+diff : (diff===0 ? 'D-DAY' : '지났어요');
+})();
+
+/* ════════════ 퀴즈 ════════════ */
+var QUIZ = [{"q": "추석을 부르는 또 다른 우리말 이름은 무엇일까요?", "opts": ["한가위", "설날", "단오", "동지"], "a": "7ZWc6rCA7JyEfGhhbmdhd2kyMDI2", "hint": "추석 인사말로 '즐거운 ○○○ 보내세요!'라고 해요. 빈칸에 들어가는 말이에요."}, {"q": "추석은 음력으로 몇 월 며칠일까요?", "opts": ["음력 1월 1일", "음력 5월 5일", "음력 8월 15일", "음력 12월 25일"], "a": "7J2M66ClIDjsm5QgMTXsnbx8aGFuZ2F3aTIwMjY=", "hint": "설날은 음력 1월 1일, 단오는 음력 5월 5일이에요. 추석은 이 두 명절보다 뒤에 있는 가을 명절이에요."}, {"q": "추석날 아침, 조상님께 감사한 마음을 담아 지내는 명절 제사를 무엇이라고 할까요?", "opts": ["차례", "세배", "성묘", "잔치"], "a": "7LCo66GAfGhhbmdhd2kyMDI2", "hint": "설날 아침에도 똑같이 지내요. 어른께 절하는 '세배'와는 다른 일이에요."}, {"q": "추석이 오기 전에 조상님 산소에 자란 풀을 깎아 깨끗하게 하는 일을 무엇이라고 할까요?", "opts": ["벌초", "모내기", "타작", "김장"], "a": "67KM7LSIfGhhbmdhd2kyMDI2", "hint": "추석 전에 어른들이 낫이나 예초기를 들고 산에 가시죠. 그때 하는 일의 이름이에요."}, {"q": "추석에 온 가족이 조상님 산소를 찾아가 인사드리는 것을 무엇이라고 할까요?", "opts": ["성묘", "소풍", "등산", "야영"], "a": "7ISx66yYfGhhbmdhd2kyMDI2", "hint": "같은 산에 올라가도 놀러 가는 것과는 목적이 달라요. 조상님을 찾아뵙고 살펴본다는 뜻이에요."}, {"q": "그해에 새로 거두어들인 쌀을 무엇이라고 부를까요?", "opts": ["햅쌀", "찹쌀", "현미", "보리쌀"], "a": "7ZaF7IyAfGhhbmdhd2kyMDI2", "hint": "'묵은쌀'의 반대말이에요."}, {"q": "봄에는 모내기, 여름에는 김매기를 해요. 그렇다면 가을에 다 익은 곡식을 거두어들이는 일은 무엇이라고 할까요?", "opts": ["추수", "씨뿌리기", "물주기", "거름주기"], "a": "7LaU7IiYfGhhbmdhd2kyMDI2", "hint": "'가을걷이'라고도 부르는 일이에요. 한 해 농사의 마지막 순서예요."}, {"q": "송편을 시루에 찔 때 떡 사이사이에 까는 것은 무엇일까요?", "opts": ["솔잎", "깻잎", "상추", "김"], "a": "7IaU7J6OfGhhbmdhd2kyMDI2", "hint": "떡끼리 달라붙지 않게 해 주고, 은은한 나무 향이 떡에 배게 해요. '송편'이라는 이름에도 그 나무가 숨어 있어요."}, {"q": "송편을 반달 모양으로 빚는 데에는 어떤 마음이 담겨 있을까요?", "opts": ["앞으로 보름달처럼 크게 잘되라는 마음", "달이 점점 작아지라는 마음", "비가 많이 오라는 마음", "겨울이 빨리 오라는 마음"], "a": "7JWe7Jy866GcIOuztOumhOuLrOyymOufvCDtgazqsowg7J6Y65CY652864qUIOuniOydjHxoYW5nYXdpMjAyNg==", "hint": "보름달은 다음 날부터 조금씩 작아져요. 그럼 반달은 앞으로 어떻게 될까요?"}, {"q": "송편 속에 넣는 재료로 알맞지 <b>않은</b> 것은 무엇일까요?", "opts": ["김치", "깨", "콩", "밤"], "a": "6rmA7LmYfGhhbmdhd2kyMDI2", "hint": "네 가지 중 셋은 떡 속에 넣으면 달콤하거나 고소해요. 하나만 짜고 매콤하죠."}, {"q": "추석날 밤에 사람들이 손을 잡고 둥글게 돌면서 노래하고 춤추던 놀이는 무엇일까요?", "opts": ["강강술래", "제기차기", "연날리기", "썰매타기"], "a": "6rCV6rCV7Iig656YfGhhbmdhd2kyMDI2", "hint": "임진왜란 때 우리 군사가 많아 보이게 하려고 했다는 이야기가 함께 전해지는 놀이예요."}, {"q": "다음 중 추석에 하던 놀이가 <b>아닌</b> 것은 무엇일까요?", "opts": ["눈싸움", "씨름", "줄다리기", "소싸움"], "a": "64iI7Iu47JuAfGhhbmdhd2kyMDI2", "hint": "추석은 가을 명절이에요. 겨울이 되어야만 할 수 있는 놀이를 찾아보세요."}, {"q": "다음 중 추석에 먹는 음식이 <b>아닌</b> 것은 무엇일까요?", "opts": ["팥죽", "송편", "토란국", "갈비찜"], "a": "7Yyl7KO9fGhhbmdhd2kyMDI2", "hint": "그 음식은 일 년 중 밤이 가장 긴 날인 '동지'에 먹는 음식이에요."}, {"q": "차례상 차리는 규칙 '홍동백서'는 무슨 뜻일까요?", "opts": ["붉은 과일은 동쪽, 흰 과일은 서쪽에 놓는다", "붉은 과일은 서쪽, 흰 과일은 동쪽에 놓는다", "붉은 과일은 위, 흰 과일은 아래에 놓는다", "붉은 과일만 놓는다"], "a": "67aJ7J2AIOqzvOydvOydgCDrj5nsqr0sIO2dsCDqs7zsnbzsnYAg7ISc7Kq97JeQIOuGk+uKlOuLpHxoYW5nYXdpMjAyNg==", "hint": "'홍'과 '백'은 색깔을, '동'과 '서'는 방향을 뜻하는 한자예요. 네 글자를 두 글자씩 끊어 읽어 보세요."}, {"q": "차례상에 과일을 놓는 순서인 '조율이시'는 어떤 순서일까요?", "opts": ["대추 - 밤 - 배 - 감", "감 - 배 - 밤 - 대추", "밤 - 대추 - 배 - 감", "배 - 대추 - 감 - 밤"], "a": "64yA7LaUIC0g67CkIC0g67CwIC0g6rCQfGhhbmdhd2kyMDI2", "hint": "네 글자가 과일 하나씩을 뜻해요. 이름에 적힌 글자 순서가 곧 놓는 순서예요."}, {"q": "차례상에 생선을 놓을 때 지키는 '두동미서'는 무슨 뜻일까요?", "opts": ["생선 머리는 동쪽, 꼬리는 서쪽으로 놓는다", "생선 머리는 서쪽, 꼬리는 동쪽으로 놓는다", "생선을 세워서 놓는다", "생선을 두 마리씩 놓는다"], "a": "7IOd7ISgIOuouOumrOuKlCDrj5nsqr0sIOq8rOumrOuKlCDshJzsqr3snLzroZwg64aT64qU64ukfGhhbmdhd2kyMDI2", "hint": "'두'는 머리, '미'는 꼬리를 뜻해요. 나머지 두 글자는 방향이고요. 두 글자씩 짝지어 읽어 보세요."}, {"q": "차례상 규칙 '좌포우혜'는 무슨 뜻일까요?", "opts": ["포는 왼쪽에, 식혜는 오른쪽에 놓는다", "포는 오른쪽에, 식혜는 왼쪽에 놓는다", "포와 식혜를 함께 가운데 놓는다", "포와 식혜는 올리지 않는다"], "a": "7Y+s64qUIOyZvOyqveyXkCwg7Iud7Zic64qUIOyYpOuluOyqveyXkCDrhpPripTri6R8aGFuZ2F3aTIwMjY=", "hint": "'좌'는 왼쪽, '우'는 오른쪽을 뜻해요. 방향 글자 바로 뒤에 무엇이 붙어 있는지 살펴보세요."}, {"q": "옛날부터 차례상에 올리지 않는다고 전해지는 과일은 무엇일까요?", "opts": ["복숭아", "사과", "배", "감"], "a": "67O17Iit7JWEfGhhbmdhd2kyMDI2", "hint": "옛날 사람들은 그 나무의 가지로 귀신을 쫓았대요. 그래서 조상님 영혼도 오시지 못한다고 여겼어요."}, {"q": "차례상에 올리는 음식을 만들 때 넣지 않는 양념은 무엇일까요?", "opts": ["마늘, 파, 고춧가루", "소금", "간장", "참기름"], "a": "66eI64qYLCDtjIwsIOqzoOy2p+qwgOujqHxoYW5nYXdpMjAyNg==", "hint": "차례상에 오르는 나물이 유난히 하얗고 심심한 까닭을 떠올려 보세요."}, {"q": "설날 차례상에는 떡국을 올려요. 그렇다면 추석 차례상에는 무엇을 올릴까요?", "opts": ["햅쌀밥과 송편", "떡국", "팥죽", "국수"], "a": "7ZaF7IyA67Cl6rO8IOyGoe2OuHxoYW5nYXdpMjAyNg==", "hint": "설날에 떡국을 올리는 건 새해를 맞이하는 뜻이에요. 그럼 가을 명절에는 그해 농사지은 것 중 무엇을 올렸을까요?"}];
+var SOL_B64 = "W3sibiI6IDEsICJxIjogIuy2lOyEneydhCDrtoDrpbTripQg65iQIOuLpOuluCDsmrDrpqzrp5Ag7J2066aE7J2AIOustOyXh+ydvOq5jOyalD8iLCAib3B0cyI6IFsi7ZWc6rCA7JyEIiwgIuyEpOuCoCIsICLri6jsmKQiLCAi64+Z7KeAIl0sICJhbnMiOiAwLCAiaGludCI6ICLstpTshJ0g7J247IKs66eQ66GcICfsppDqsbDsmrQg4peL4peL4peLIOuztOuCtOyEuOyalCEn65286rOgIO2VtOyalC4g67mI7Lm47JeQIOuTpOyWtOqwgOuKlCDrp5DsnbTsl5DsmpQuIiwgImV4cCI6ICIn7ZWcJ+ydgCAn7YGs64ukJywgJ+qwgOychCfripQgJ+qwgOyatOuNsCjqsIDrsLApJ+ulvCDrnLvtlanri4jri6QuIOymiSAnOOyblOydmCDtlZzqsIDsmrTrjbAg7J6I64qUIO2BsCDrgqAn7J6F64uI64ukLiJ9LCB7Im4iOiAyLCAicSI6ICLstpTshJ3snYAg7J2M66Cl7Jy866GcIOuqhyDsm5Qg66mw7Lmg7J286rmM7JqUPyIsICJvcHRzIjogWyLsnYzroKUgMeyblCAx7J28IiwgIuydjOugpSA17JuUIDXsnbwiLCAi7J2M66ClIDjsm5QgMTXsnbwiLCAi7J2M66ClIDEy7JuUIDI17J28Il0sICJhbnMiOiAyLCAiaGludCI6ICLshKTrgqDsnYAg7J2M66ClIDHsm5QgMeydvCwg64uo7Jik64qUIOydjOugpSA17JuUIDXsnbzsnbTsl5DsmpQuIOy2lOyEneydgCDsnbQg65GQIOuqheygiOuztOuLpCDrkqTsl5Ag7J6I64qUIOqwgOydhCDrqoXsoIjsnbTsl5DsmpQuIiwgImV4cCI6ICLstpTshJ3snYAg7J2M66ClIDjsm5QgMTXsnbzroZwsIOqwgOydhOydmCDtlZzqsIDsmrTrjbDsnbTsnpAg67O066aE64us7J20IOucqOuKlCDrgqDsnoXri4jri6QuIDIwMjbrhYQg7LaU7ISd7J2AIOyWkeugpSA57JuUIDI17J28KOq4iCnsnoXri4jri6QuIn0sIHsibiI6IDMsICJxIjogIuy2lOyEneuCoCDslYTsuagsIOyhsOyDgeuLmOq7mCDqsJDsgqztlZwg66eI7J2M7J2EIOuLtOyVhCDsp4DrgrTripQg66qF7KCIIOygnOyCrOulvCDrrLTsl4fsnbTrnbzqs6Ag7ZWg6rmM7JqUPyIsICJvcHRzIjogWyLssKjroYAiLCAi7IS467CwIiwgIuyEseusmCIsICLsnpTsuZgiXSwgImFucyI6IDAsICJoaW50IjogIuyEpOuCoCDslYTsuajsl5Drj4Qg65iR6rCZ7J20IOyngOuCtOyalC4g7Ja066W46ruYIOygiO2VmOuKlCAn7IS467CwJ+yZgOuKlCDri6Trpbgg7J287J207JeQ7JqULiIsICJleHAiOiAi66qF7KCIIOyVhOy5qOyXkCDsp4DrgrTripQg7KCc7IKs6rCAICfssKjroYAn7J6F64uI64ukLiDrj4zslYTqsIDsi6Ag64Kg7JeQIOyngOuCtOuKlCAn6riw7KCc7IKsJ+yZgCDri6TrpbTqs6AsICfshLjrsLAn64qUIOyWtOuluOq7mCDrk5zrpqzripQg7KCI7J6F64uI64ukLiJ9LCB7Im4iOiA0LCAicSI6ICLstpTshJ3snbQg7Jik6riwIOyghOyXkCDsobDsg4Hri5gg7IKw7IaM7JeQIOyekOuegCDtkoDsnYQg6rmO7JWEIOq5qOuBl+2VmOqyjCDtlZjripQg7J287J2EIOustOyXh+ydtOudvOqzoCDtlaDquYzsmpQ/IiwgIm9wdHMiOiBbIuuyjOy0iCIsICLrqqjrgrTquLAiLCAi7YOA7J6RIiwgIuq5gOyepSJdLCAiYW5zIjogMCwgImhpbnQiOiAi7LaU7ISdIOyghOyXkCDslrTrpbjrk6TsnbQg64Kr7J2064KYIOyYiOy0iOq4sOulvCDrk6Tqs6Ag7IKw7JeQIOqwgOyLnOyjoC4g6re465WMIO2VmOuKlCDsnbzsnZgg7J2066aE7J207JeQ7JqULiIsICJleHAiOiAi7IKw7IaM7JeQIOyekOuegCDtkoDsnYQg67Kg7Ja0IOygleumrO2VmOuKlCDsnbzroZwsIOuztO2GtSDstpTshJ0gMn4z7KO8IOyghOyXkCDtlanri4jri6QuIn0sIHsibiI6IDUsICJxIjogIuy2lOyEneyXkCDsmKgg6rCA7KGx7J20IOyhsOyDgeuLmCDsgrDshozrpbwg7LC+7JWE6rCAIOyduOyCrOuTnOumrOuKlCDqsoPsnYQg66y07JeH7J2065286rOgIO2VoOq5jOyalD8iLCAib3B0cyI6IFsi7ISx66yYIiwgIuyGjO2SjSIsICLrk7HsgrAiLCAi7JW87JiBIl0sICJhbnMiOiAwLCAiaGludCI6ICLqsJnsnYAg7IKw7JeQIOyYrOudvOqwgOuPhCDrhoDrn6wg6rCA64qUIOqyg+qzvOuKlCDrqqnsoIHsnbQg64us65287JqULiDsobDsg4Hri5jsnYQg7LC+7JWE67WZ6rOgIOyCtO2OtOuzuOuLpOuKlCDrnLvsnbTsl5DsmpQuIiwgImV4cCI6ICLsgrDshozrpbwg7LC+7JWE6rCAIOyCtO2UvOqzoCDsnbjsgqzrk5zrpqzripQg7J287J6F64uI64ukLiDrsozstIjsmYAg7ZWo6ruYIO2VmOuKlCDqsr3smrDqsIAg66eO7Iq164uI64ukLiJ9LCB7Im4iOiA2LCAicSI6ICLqt7jtlbTsl5Ag7IOI66GcIOqxsOuRkOyWtOuTpOyduCDsjIDsnYQg66y07JeH7J2065286rOgIOu2gOulvOq5jOyalD8iLCAib3B0cyI6IFsi7ZaF7IyAIiwgIuywueyMgCIsICLtmITrr7giLCAi67O066as7IyAIl0sICJhbnMiOiAwLCAiaGludCI6ICIn66y17J2A7IyAJ+ydmCDrsJjrjIDrp5DsnbTsl5DsmpQuIiwgImV4cCI6ICLqt7jtlbQg7IOI66GcIOyImO2Zle2VnCDsjIDsnoXri4jri6QuIOyngOuCnO2VtCDsjIDsnbggJ+usteydgOyMgCfqs7wg64yA67mE65Cp64uI64ukLiDstpTshJ0g7LCo66GA7IOB7JeQ64qUIOydtCDtloXsjIDroZwg7KeA7J2AIOuwpeydhCDsmKzrpr3ri4jri6QuIn0sIHsibiI6IDcsICJxIjogIuu0hOyXkOuKlCDrqqjrgrTquLAsIOyXrOumhOyXkOuKlCDquYDrp6TquLDrpbwg7ZW07JqULiDqt7jroIfri6TrqbQg6rCA7J2E7JeQIOuLpCDsnbXsnYAg6rOh7Iud7J2EIOqxsOuRkOyWtOuTpOydtOuKlCDsnbzsnYAg66y07JeH7J2065286rOgIO2VoOq5jOyalD8iLCAib3B0cyI6IFsi7LaU7IiYIiwgIuyUqOu/jOumrOq4sCIsICLrrLzso7zquLAiLCAi6rGw66aE7KO86riwIl0sICJhbnMiOiAwLCAiaGludCI6ICIn6rCA7J2E6rG37J20J+udvOqzoOuPhCDrtoDrpbTripQg7J287J207JeQ7JqULiDtlZwg7ZW0IOuGjeyCrOydmCDrp4jsp4Drp4kg7Iic7ISc7JiI7JqULiIsICJleHAiOiAiJ+qwgOydhOqxt+ydtCfrnbzqs6Drj4Qg7ZWp64uI64ukLiDrtIQg66qo64K06riwIOKGkiDsl6zrpoQg6rmA66ek6riwIOKGkiDqsIDsnYQg7LaU7IiY66GcIOydtOyWtOyngOuKlCDtlZwg7ZW0IOuGjeyCrOydmCDrp4jsp4Drp4kg7Iic7ISc7J6F64uI64ukLiJ9LCB7Im4iOiA4LCAicSI6ICLshqHtjrjsnYQg7Iuc66Oo7JeQIOywlCDrlYwg65ahIOyCrOydtOyCrOydtOyXkCDquYzripQg6rKD7J2AIOustOyXh+ydvOq5jOyalD8iLCAib3B0cyI6IFsi7IaU7J6OIiwgIuq5u+yejiIsICLsg4HstpQiLCAi6rmAIl0sICJhbnMiOiAwLCAiaGludCI6ICLrlqHrgbzrpqwg64us652867aZ7KeAIOyViuqyjCDtlbQg7KO86rOgLCDsnYDsnYDtlZwg64KY66y0IO2WpeydtCDrlqHsl5Ag67Cw6rKMIO2VtOyalC4gJ+yGoe2OuCfsnbTrnbzripQg7J2066aE7JeQ64+EIOq3uCDrgpjrrLTqsIAg7Iio7Ja0IOyeiOyWtOyalC4iLCAiZXhwIjogIuyGlOyejuydgCDrlqHsnbQg7ISc66GcIOuLrOudvOu2meyngCDslYrqsowg7ZWY6rOgIOydgOydgO2VnCDtlqXsnYQg642U7ZWY66mwLCDsnpgg7IOB7ZWY7KeAIOyViuqyjCDrj5XsirXri4jri6QuICfshqHtjrgo5p2+6aSgKSfsnZggJ+yGoSfsnbQg7IaM64KY66y066W8IOucu+2VqeuLiOuLpC4ifSwgeyJuIjogOSwgInEiOiAi7Iah7Y647J2EIOuwmOuLrCDrqqjslpHsnLzroZwg67ma64qUIOuNsOyXkOuKlCDslrTrlqQg66eI7J2M7J20IOuLtOqyqCDsnojsnYTquYzsmpQ/IiwgIm9wdHMiOiBbIuyVnuycvOuhnCDrs7TrpoTri6zsspjrn7wg7YGs6rKMIOyemOuQmOudvOuKlCDrp4jsnYwiLCAi64us7J20IOygkOygkCDsnpHslYTsp4DrnbzripQg66eI7J2MIiwgIuu5hOqwgCDrp47snbQg7Jik652864qUIOuniOydjCIsICLqsqjsmrjsnbQg67mo66asIOyYpOudvOuKlCDrp4jsnYwiXSwgImFucyI6IDAsICJoaW50IjogIuuztOumhOuLrOydgCDri6TsnYwg64Kg67aA7YSwIOyhsOq4iOyUqSDsnpHslYTsoLjsmpQuIOq3uOufvCDrsJjri6zsnYAg7JWe7Jy866GcIOyWtOuWu+qyjCDrkKDquYzsmpQ/IiwgImV4cCI6ICLrs7TrpoTri6zsnYAg64uk7J2MIOuCoOu2gO2EsCDquLDsmrjsp4Drp4wg67CY64us7J2AIOyVnuycvOuhnCDssKjsmKTrpoXri4jri6QuIOuwnOyghOqzvCDrsojsmIHsnYQg67CU652864qUIOuniOydjOydhCDri7TslZjsirXri4jri6QuIn0sIHsibiI6IDEwLCAicSI6ICLshqHtjrgg7IaN7JeQIOuEo+uKlCDsnqzro4zroZwg7JWM66ee7KeAIDxiPuyViuydgDwvYj4g6rKD7J2AIOustOyXh+ydvOq5jOyalD8iLCAib3B0cyI6IFsi6rmA7LmYIiwgIuq5qCIsICLsvakiLCAi67CkIl0sICJhbnMiOiAwLCAiaGludCI6ICLrhKQg6rCA7KeAIOykkSDshYvsnYAg65ahIOyGjeyXkCDrhKPsnLzrqbQg64us7L2k7ZWY6rGw64KYIOqzoOyGjO2VtOyalC4g7ZWY64KY66eMIOynnOqzoCDrp6TsvaTtlZjso6AuIiwgImV4cCI6ICLshqHtjrgg7IaM66Gc64qUIOq5qCwg7L2pLCDrsKQsIO2MpeyymOufvCDri6zqsbDrgpgg6rOg7IaM7ZWcIOyerOujjOulvCDslIHri4jri6QuIn0sIHsibiI6IDExLCAicSI6ICLstpTshJ3rgqAg67Ck7JeQIOyCrOuejOuTpOydtCDshpDsnYQg7J6h6rOgIOuRpeq4gOqyjCDrj4zrqbTshJwg64W4656Y7ZWY6rOgIOy2pOy2lOuNmCDrhoDsnbTripQg66y07JeH7J286rmM7JqUPyIsICJvcHRzIjogWyLqsJXqsJXsiKDrnpgiLCAi7KCc6riw7LCo6riwIiwgIuyXsOuCoOumrOq4sCIsICLsjbDrp6Ttg4DquLAiXSwgImFucyI6IDAsICJoaW50IjogIuyehOynhOyZnOuegCDrlYwg7Jqw66asIOq1sOyCrOqwgCDrp47slYQg67O07J206rKMIO2VmOugpOqzoCDtlojri6TripQg7J207JW86riw6rCAIO2VqOq7mCDsoITtlbTsp4DripQg64aA7J207JiI7JqULiIsICJleHAiOiAi7LaU7ISd64KgIOuwpCDtko3smpTrpbwg6riw7JuQ7ZWY66mwIOymkOq4sOuNmCDrhoDsnbTroZwsIOycoOuEpOyKpOy9lCDsnbjrpZjrrLTtmJXrrLjtmZTsnKDsgrDsnoXri4jri6QuIOydtOyInOyLoCDsnqXqtbDqs7wg7Ja97Z6MIOydtOyVvOq4sOuPhCDsoITtlbTsp5Hri4jri6QuIn0sIHsibiI6IDEyLCAicSI6ICLri6TsnYwg7KSRIOy2lOyEneyXkCDtlZjrjZgg64aA7J206rCAIDxiPuyVhOuLjDwvYj4g6rKD7J2AIOustOyXh+ydvOq5jOyalD8iLCAib3B0cyI6IFsi64iI7Iu47JuAIiwgIuyUqOumhCIsICLspITri6TrpqzquLAiLCAi7IaM7Iu47JuAIl0sICJhbnMiOiAwLCAiaGludCI6ICLstpTshJ3snYAg6rCA7J2EIOuqheygiOydtOyXkOyalC4g6rKo7Jq47J20IOuQmOyWtOyVvOunjCDtlaAg7IiYIOyeiOuKlCDrhoDsnbTrpbwg7LC+7JWE67O07IS47JqULiIsICJleHAiOiAi7LaU7ISd7JeQ64qUIOyUqOumhCwg7KSE64uk66as6riwLCDshozsi7jsm4AsIOqwleqwleyIoOuemCDrk7HsnYQg7KaQ6rK87Iq164uI64ukLiDriIjsi7jsm4DsnYAg6rKo7Jq4IOuGgOydtOyeheuLiOuLpC4ifSwgeyJuIjogMTMsICJxIjogIuuLpOydjCDspJEg7LaU7ISd7JeQIOuoueuKlCDsnYzsi53snbQgPGI+7JWE64uMPC9iPiDqsoPsnYAg66y07JeH7J286rmM7JqUPyIsICJvcHRzIjogWyLtjKXso70iLCAi7Iah7Y64IiwgIu2GoOuegOq1rSIsICLqsIjruYTssJwiXSwgImFucyI6IDAsICJoaW50IjogIuq3uCDsnYzsi53snYAg7J28IOuFhCDspJEg67Ck7J20IOqwgOyepSDquLQg64Kg7J24ICfrj5nsp4An7JeQIOuoueuKlCDsnYzsi53snbTsl5DsmpQuIiwgImV4cCI6ICLtjKXso73snYAg7J28IOuFhCDspJEg67Ck7J20IOqwgOyepSDquLQg64+Z7KeA7JeQIOuoueuKlCDsnYzsi53snoXri4jri6QuIOy2lOyEnSDsnYzsi53snLzroZzripQg7Iah7Y64LCDthqDrnoDqta0sIOqwiOu5hOywnCDrk7HsnbQg7J6I7Iq164uI64ukLiJ9LCB7Im4iOiAxNCwgInEiOiAi7LCo66GA7IOBIOywqOumrOuKlCDqt5zsuZkgJ+2ZjeuPmeuwseyEnCfripQg66y07IqoIOucu+ydvOq5jOyalD8iLCAib3B0cyI6IFsi67aJ7J2AIOqzvOydvOydgCDrj5nsqr0sIO2dsCDqs7zsnbzsnYAg7ISc7Kq97JeQIOuGk+uKlOuLpCIsICLrtonsnYAg6rO87J287J2AIOyEnOyqvSwg7Z2wIOqzvOydvOydgCDrj5nsqr3sl5Ag64aT64qU64ukIiwgIuu2ieydgCDqs7zsnbzsnYAg7JyELCDtnbAg6rO87J287J2AIOyVhOuemOyXkCDrhpPripTri6QiLCAi67aJ7J2AIOqzvOydvOunjCDrhpPripTri6QiXSwgImFucyI6IDAsICJoaW50IjogIiftmY0n6rO8ICfrsLEn7J2AIOyDieq5lOydhCwgJ+uPmSfqs7wgJ+yEnCfripQg67Cp7Zal7J2EIOucu+2VmOuKlCDtlZzsnpDsmIjsmpQuIOuEpCDquIDsnpDrpbwg65GQIOq4gOyekOyUqSDrgYrslrQg7J297Ja0IOuztOyEuOyalC4iLCAiZXhwIjogIuu2ieydgOyDiSDqs7zsnbwo7IKs6rO8IOuTsSnsnYAg64+Z7Kq97JeQLCDtnbDsg4kg6rO87J28KOuwsCDrk7Ep7J2AIOyEnOyqveyXkCDrhpPsirXri4jri6QuIDxiPuuLpOunjDwvYj4gMjAyMuuFhCDshLHqt6DqtIAg67Cc7ZGc7JeQIOuUsOultOuptCAn7ZmN64+Z67Cx7IScJ+uKlCDsmJsg7JiI67KVIOusuO2XjOyXkCDrgpjsmKTsp4Ag7JWK64qUIO2RnO2YhOyeheuLiOuLpC4g7JWE7J207JeQ6rKM64qUICfsnbTrn7Ag66eQ7J20IOuEkOumrCDsk7Dsnbjri6QnIOygleuPhOuhnCDsoITtlbQg7KO87IS47JqULiJ9LCB7Im4iOiAxNSwgInEiOiAi7LCo66GA7IOB7JeQIOqzvOydvOydhCDrhpPripQg7Iic7ISc7J24ICfsobDsnKjsnbTsi5wn64qUIOyWtOuWpCDsiJzshJzsnbzquYzsmpQ/IiwgIm9wdHMiOiBbIuuMgOy2lCAtIOuwpCAtIOuwsCAtIOqwkCIsICLqsJAgLSDrsLAgLSDrsKQgLSDrjIDstpQiLCAi67CkIC0g64yA7LaUIC0g67CwIC0g6rCQIiwgIuuwsCAtIOuMgOy2lCAtIOqwkCAtIOuwpCJdLCAiYW5zIjogMCwgImhpbnQiOiAi64SkIOq4gOyekOqwgCDqs7zsnbwg7ZWY64KY7JSp7J2EIOucu+2VtOyalC4g7J2066aE7JeQIOygge2ejCDquIDsnpAg7Iic7ISc6rCAIOqzpyDrhpPripQg7Iic7ISc7JiI7JqULiIsICJleHAiOiAi7Jm87Kq967aA7YSwIOuMgOy2lCjmo5cpIC0g67CkKOaglykgLSDrsLAo5qKoKSAtIOqwkCjmn78pIOyInOyeheuLiOuLpC4g7KeR7JWI7JeQIOuUsOudvCDrsLDsmYAg6rCQ7J2YIOyInOyEnOulvCDrsJTqvrwgJ+yhsOycqOyLnOydtCfrpbwg7JOw6riw64+EIO2VmOupsCwg7ISx6reg6rSA7J2AIOydtCDtkZztmIQg7Jet7IucIOusuO2XjCDqt7zqsbDqsIAg7JeG64uk6rOgIOuwne2YlOyKteuLiOuLpC4ifSwgeyJuIjogMTYsICJxIjogIuywqOuhgOyDgeyXkCDsg53shKDsnYQg64aT7J2EIOuVjCDsp4DtgqTripQgJ+uRkOuPmeuvuOyEnCfripQg66y07IqoIOucu+ydvOq5jOyalD8iLCAib3B0cyI6IFsi7IOd7ISgIOuouOumrOuKlCDrj5nsqr0sIOq8rOumrOuKlCDshJzsqr3snLzroZwg64aT64qU64ukIiwgIuyDneyEoCDrqLjrpqzripQg7ISc7Kq9LCDqvKzrpqzripQg64+Z7Kq97Jy866GcIOuGk+uKlOuLpCIsICLsg53shKDsnYQg7IS47JuM7IScIOuGk+uKlOuLpCIsICLsg53shKDsnYQg65GQIOuniOumrOyUqSDrhpPripTri6QiXSwgImFucyI6IDAsICJoaW50IjogIifrkZAn64qUIOuouOumrCwgJ+uvuCfripQg6rys66as66W8IOucu+2VtOyalC4g64KY66i47KeAIOuRkCDquIDsnpDripQg67Cp7Zal7J206rOg7JqULiDrkZAg6riA7J6Q7JSpIOynneyngOyWtCDsnb3slrQg67O07IS47JqULiIsICJleHAiOiAi66i466asIOuRkCjpoK0pwrfrj5nrhZgg64+ZKOadsSnCt+q8rOumrCDrr7go5bC+KcK37ISc64WYIOyEnCjopb8pLiDsg53shKAg66i466as66W8IO2VtCDrnKjripQg64+Z7Kq97Jy866GcIOuRoeuLiOuLpC4ifSwgeyJuIjogMTcsICJxIjogIuywqOuhgOyDgSDqt5zsuZkgJ+yijO2PrOyasO2YnCfripQg66y07IqoIOucu+ydvOq5jOyalD8iLCAib3B0cyI6IFsi7Y+s64qUIOyZvOyqveyXkCwg7Iud7Zic64qUIOyYpOuluOyqveyXkCDrhpPripTri6QiLCAi7Y+s64qUIOyYpOuluOyqveyXkCwg7Iud7Zic64qUIOyZvOyqveyXkCDrhpPripTri6QiLCAi7Y+s7JmAIOyLne2YnOulvCDtlajqu5gg6rCA7Jq0642wIOuGk+uKlOuLpCIsICLtj6zsmYAg7Iud7Zic64qUIOyYrOumrOyngCDslYrripTri6QiXSwgImFucyI6IDAsICJoaW50IjogIifsoown64qUIOyZvOyqvSwgJ+yasCfripQg7Jik66W47Kq97J2EIOucu+2VtOyalC4g67Cp7ZalIOq4gOyekCDrsJTroZwg65Kk7JeQIOustOyXh+ydtCDrtpnslrQg7J6I64qU7KeAIOyCtO2OtOuztOyEuOyalC4iLCAiZXhwIjogIuyZvOyqveyXkCDtj6wo7Jyh7Y+swrfrtoHslrTtj6wg65OxKSwg7Jik66W47Kq97JeQIOyLne2YnOulvCDrhpPsirXri4jri6QuIO2VnOyDgSDssYzrprDsp4AgUk9VTkQgMeydmCA167KIIOuvuOyFmOqzvCDqsJnsnYAg64K07Jqp7J6F64uI64ukLiJ9LCB7Im4iOiAxOCwgInEiOiAi7Jib64Kg67aA7YSwIOywqOuhgOyDgeyXkCDsmKzrpqzsp4Ag7JWK64qU64uk6rOgIOyghO2VtOyngOuKlCDqs7zsnbzsnYAg66y07JeH7J286rmM7JqUPyIsICJvcHRzIjogWyLrs7XsiK3slYQiLCAi7IKs6rO8IiwgIuuwsCIsICLqsJAiXSwgImFucyI6IDAsICJoaW50IjogIuyYm+uCoCDsgqzrnozrk6TsnYAg6re4IOuCmOustOydmCDqsIDsp4DroZwg6reA7Iug7J2EIOyrk+yVmOuMgOyalC4g6re4656Y7IScIOyhsOyDgeuLmCDsmIHtmLzrj4Qg7Jik7Iuc7KeAIOuqu+2VnOuLpOqzoCDsl6zqsrzslrTsmpQuIiwgImV4cCI6ICLrs7XsiK3slYTripQg7JiI66Gc67aA7YSwIOq3gOyLoOydhCDsq5PripQg6rO87Iuk66GcIOyXrOqyqCDsobDsg4HsnZgg7JiB7Zi87J20IOyYpOyngCDrqrvtlZzri6Tqs6Ag67O07JWY7Iq164uI64ukLiDqsJnsnYAg7J207Jyg66GcIO2EuCDsnojripQg6rO87J286rO8ICfsuZgn66GcIOuBneuCmOuKlCDsg53shKAo6r2B7LmYwrfqsIjsuZgp64+EIOyYrOumrOyngCDslYrsirXri4jri6QuIn0sIHsibiI6IDE5LCAicSI6ICLssKjroYDsg4Hsl5Ag7Jis66as64qUIOydjOyLneydhCDrp4zrk6Qg65WMIOuEo+yngCDslYrripQg7JaR64WQ7J2AIOustOyXh+ydvOq5jOyalD8iLCAib3B0cyI6IFsi66eI64qYLCDtjIwsIOqzoOy2p+qwgOujqCIsICLshozquIgiLCAi6rCE7J6lIiwgIuywuOq4sOumhCJdLCAiYW5zIjogMCwgImhpbnQiOiAi7LCo66GA7IOB7JeQIOyYpOultOuKlCDrgpjrrLzsnbQg7Jyg64Kc7Z6IIO2VmOyWl+qzoCDsi6zsi6ztlZwg6rmM64ut7J2EIOuWoOyYrOugpCDrs7TshLjsmpQuIiwgImV4cCI6ICLrp4jripjCt+2MjMK36rOg7Lan6rCA66OoIOqwmeydgCDsnpDqt7nsoIHsnbgg7JaR64WQ7J2AIOyTsOyngCDslYrqs6Ag64u067Cx7ZWY6rKMIOyhsOumrO2VqeuLiOuLpC4g7LCo66GA7IOBIOuCmOusvOydtCDtlZjsloAg7J207Jyg7J6F64uI64ukLiJ9LCB7Im4iOiAyMCwgInEiOiAi7ISk64KgIOywqOuhgOyDgeyXkOuKlCDrlqHqta3snYQg7Jis66Ck7JqULiDqt7jroIfri6TrqbQg7LaU7ISdIOywqOuhgOyDgeyXkOuKlCDrrLTsl4fsnYQg7Jis66a06rmM7JqUPyIsICJvcHRzIjogWyLtloXsjIDrsKXqs7wg7Iah7Y64IiwgIuuWoeq1rSIsICLtjKXso70iLCAi6rWt7IiYIl0sICJhbnMiOiAwLCAiaGludCI6ICLshKTrgqDsl5Ag65ah6rWt7J2EIOyYrOumrOuKlCDqsbQg7IOI7ZW066W8IOunnuydtO2VmOuKlCDrnLvsnbTsl5DsmpQuIOq3uOufvCDqsIDsnYQg66qF7KCI7JeQ64qUIOq3uO2VtCDrho3sgqzsp4DsnYAg6rKDIOykkSDrrLTsl4fsnYQg7Jis66C47J2E6rmM7JqUPyIsICJleHAiOiAi7ISk64Kg7JeQ64qUIOyDiO2VtOulvCDrp57ripQg65y77Jy866GcIOuWoeq1reydhCwg7LaU7ISd7JeQ64qUIOq3uO2VtCDqsbDrkZQg7ZaF7IyA66GcIOyngOydgCDrsKXqs7wg7Iah7Y647J2EIOyYrOumveuLiOuLpC4ifV0=";
+var PW_B64  = "7LaU7ISdfGhhbmdhd2kyMDI2";
+
+var enc = function(s){ return btoa(unescape(encodeURIComponent(s + '|hangawi2026'))); };
+var CIRCLED = ['①','②','③','④'];
+var quizBox=$('quizBox'), notice=$('notice'), progressText=$('progressText'),
+    progressBar=$('progressBar'), nameInput=$('nameInput');
+var order=[], picks={};
+
+function shuffle(arr){
+  var a=arr.slice(),i,j,t;
+  for(i=a.length-1;i>0;i--){ j=Math.floor(Math.random()*(i+1)); t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+function buildQuiz(){
+  picks={};
+  order=shuffle(QUIZ.map(function(_,i){return i;}));
+  quizBox.innerHTML=order.map(function(qi,pos){
+    var q=QUIZ[qi], opts=shuffle(q.opts);
+    return '<div class="qz-card" id="card'+qi+'">'+
+      '<span class="qz-no">'+(pos+1)+'번</span>'+
+      '<div class="qz-q">'+q.q+'</div>'+
+      '<div class="qz-opts">'+opts.map(function(o,j){
+        return '<button type="button" class="qz-opt" data-q="'+qi+'" data-t="'+encodeURIComponent(o)+'">'+CIRCLED[j]+' '+o+'</button>';
+      }).join('')+'</div>'+
+      '<button type="button" class="qz-hintbtn" data-hint="'+qi+'">💡 힌트 보기</button>'+
+      '<div class="qz-hint" id="hint'+qi+'">'+q.hint+'</div></div>';
+  }).join('');
+  updateProgress();
+}
+function updateProgress(){
+  var n=Object.keys(picks).length;
+  progressText.textContent=n+' / '+QUIZ.length+' 문제 풀었어요';
+  progressBar.style.width=(n/QUIZ.length*100)+'%';
+  if(current==='quiz') setMoon(n/QUIZ.length);
+}
+quizBox.addEventListener('click',function(e){
+  var hb=e.target.closest('.qz-hintbtn');
+  if(hb){
+    var box=$('hint'+hb.dataset.hint), open=box.style.display==='block';
+    box.style.display=open?'none':'block';
+    hb.textContent=open?'💡 힌트 보기':'💡 힌트 닫기';
+    return;
+  }
+  var btn=e.target.closest('.qz-opt');
+  if(!btn) return;
+  var qi=btn.dataset.q;
+  picks[qi]=decodeURIComponent(btn.dataset.t);
+  var os=document.querySelectorAll('#card'+qi+' .qz-opt'),i;
+  for(i=0;i<os.length;i++) os[i].classList.toggle('sel', os[i]===btn);
+  notice.style.display='none';
+  updateProgress();
+});
+function qShow(id){
+  var s=document.querySelectorAll('#page-quiz .qscreen'),i;
+  for(i=0;i<s.length;i++) s[i].classList.remove('on');
+  $(id).classList.add('on');
+  $('lockBox').style.display = (id==='qz-sol') ? 'none' : '';
+  window.scrollTo(0,0);
+}
+$('submitBtn').addEventListener('click',function(){
+  var missing=order.filter(function(qi){ return !(qi in picks); });
+  if(missing.length){
+    var nums=missing.map(function(qi){ return order.indexOf(qi)+1; }).sort(function(a,b){return a-b;});
+    notice.textContent='아직 안 푼 문제가 있어요 — '+nums.join(', ')+'번';
+    notice.style.display='block';
+    $('card'+missing[0]).scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  var wrong=0;
+  QUIZ.forEach(function(q,qi){ if(enc(picks[qi])!==q.a) wrong++; });
+  if(wrong===0){
+    var nm=(nameInput.value||'').trim();
+    $('certName').textContent = nm ? nm : '우리 아이';
+    var d=new Date();
+    $('certDate').textContent = d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일';
+    setMoon(1);
+    qShow('qz-cert');
+  }else{
+    $('wrongText').textContent = wrong+'개 틀렸어요';
+    qShow('qz-again');
+  }
+});
+['retryBtn1','retryBtn2'].forEach(function(id){
+  $(id).addEventListener('click',function(){ buildQuiz(); qShow('qz-play'); });
+});
+
+/* 해설 잠금 */
+$('lockForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  var v=($('lockPw').value||'').trim();
+  if(v && enc(v)===PW_B64){
+    $('lockErr').style.display='none';
+    $('lockPw').value='';
+    renderSolutions();
+    qShow('qz-sol');
+  }else{
+    $('lockErr').style.display='block';
+    var lb=$('lockBox');
+    lb.classList.remove('shake'); void lb.offsetWidth; lb.classList.add('shake');
+  }
+});
+var solDone=false;
+function renderSolutions(){
+  if(solDone) return;
+  var data=JSON.parse(decodeURIComponent(escape(atob(SOL_B64))));
+  var rows=data.map(function(s){ return '<tr><td>'+s.n+'</td><td>'+s.opts[s.ans]+'</td></tr>'; }).join('');
+  var items=data.map(function(s){
+    return '<div class="sitem"><div class="sh"><span class="n">'+s.n+'</span>'+
+      '<span class="sq">'+s.q+'</span></div><ol>'+
+      s.opts.map(function(o,j){
+        return '<li class="'+(j===s.ans?'ok':'')+'">'+CIRCLED[j]+' '+o+'</li>';
+      }).join('')+'</ol><div class="meta">'+
+      '<div class="hh"><b>아이에게 준 힌트</b>'+s.hint+'</div>'+
+      '<div class="ee"><b>해설</b>'+s.exp+'</div></div></div>';
+  }).join('');
+  $('solSheet').innerHTML=
+    '<div class="warn">⚠️ 이 문서는 부모님·선생님 검토용입니다. 아이에게는 보여주지 마세요.</div>'+
+    '<h3>정답 한눈에 보기</h3>'+
+    '<p style="margin:0 0 10px;font-size:12.5px;color:#6b7280">아이 화면에서는 문제와 보기 순서가 매번 무작위로 섞입니다. 아래 번호는 이 문서의 정리 순서입니다.</p>'+
+    '<div class="tblwrap"><table><thead><tr><th>번호</th><th>정답</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+    items+
+    '<p style="margin-top:18px;font-size:12px;color:#6b7280;text-align:center;line-height:1.8">'+
+    '※ 차례상 진설법은 지역·집안에 따라 차이가 있습니다. 본 자료는 가장 널리 알려진 방식을 기준으로 했습니다.<br>'+
+    '2022년 성균관 의례정립위원회는 차례 음식은 9가지면 충분하며, 홍동백서·조율이시 등은 옛 예법 문헌에 없는 표현이라고 밝혔습니다.</p>';
+  solDone=true;
+}
+$('solBack').addEventListener('click',function(){ qShow('qz-play'); });
+$('solPrint').addEventListener('click',function(){ window.print(); });
+
+buildQuiz();
+
+/* ════════════ 한상 챌린지 ════════════ */
+var gameMoon = 0;
+(function(){
+"use strict";
+
+var F = {
+  bap:['🍚','밥'], guk:['🥣','국'], song:['🌙','송편'], tteokguk:['🍜','떡국'], cake:['🍰','케이크'],
+  jeok:['🍖','고기적'], jeon:['🥘','전'], fish:['🐟','생선'],
+  tang1:['🍲','육탕'], tang2:['🍲','소탕'], tang3:['🍲','어탕'],
+  po:['🥓','포'], namul:['🥬','삼색나물'], sikhye:['🍵','식혜'],
+  daechu:['🍒','대추'], bam:['🌰','밤'], bae:['🍐','배'], gam:['🍊','감']
+};
+
+var R1 = [
+ { type:'food', row:0, col:2,
+   q:'맨 안쪽 <b>1열</b> 가운데 자리예요. 추석에 조상님께 올리는 떡은?',
+   sub:'1열은 병풍에 가장 가까운, 밥과 떡을 놓는 줄이에요.',
+   opts:['song','tteokguk','cake'], ans:'song',
+   ok:'맞아요! 설날에는 떡국, 추석에는 <b>송편</b>을 올려요. 반달 모양으로 빚어서 솔잎을 깔고 쪄요.',
+   no:{tteokguk:'떡국은 설날 음식이에요. 추석에는 갓 나온 햅쌀로 빚는 떡이 있죠?',
+       cake:'케이크는 ROUND 2에서 마음껏 올릴 수 있어요! 지금은 옛날 상이에요.'} },
+ { type:'cell', row:0, food:'bap', cells:[0,4], ans:0,
+   q:'🍚 <b>밥</b>은 1열의 어느 쪽에 놓을까요?',
+   sub:'왼쪽 자리와 오른쪽 자리 중에 골라 보세요.',
+   also:[[0,4,'guk']], learn:0,
+   ok:'<b>반서갱동</b>(飯西羹東) — 밥은 왼쪽, 국은 오른쪽이에요. 국도 같이 놓아 둘게요.',
+   noAll:'반대예요. 밥은 왼쪽에, 국은 오른쪽에 놓아요. 이걸 <b>반서갱동</b>이라고 불러요.' },
+ { type:'cell', row:1, food:'fish', cells:[0,3], ans:3,
+   q:'2열은 굽고 부친 음식 자리예요. 🐟 <b>생선</b>은 어느 쪽일까요?',
+   sub:'생선과 고기는 서로 반대편에 놓아요.',
+   also:[[1,0,'jeok'],[1,1,'jeon']], learn:1,
+   ok:'<b>어동육서</b>(魚東肉西) — 생선은 오른쪽, 고기는 왼쪽이에요. 고기적과 전도 함께 놓았어요.',
+   noAll:'그 자리는 고기 자리예요. 생선은 오른쪽! <b>어동육서</b>라고 외워요.' },
+ { type:'food', row:2, col:2,
+   q:'<b>3열</b>은 따뜻한 국물 요리를 놓는 자리예요. 무엇을 올릴까요?',
+   sub:'셋 중에 국물 요리(탕)는 어느 것일까요?',
+   opts:['tang2','namul','bae'], ans:'tang2',
+   also:[[2,1,'tang1'],[2,3,'tang3']], learn:2,
+   ok:'3열은 <b>탕</b> 자리예요. 고기로 끓인 육탕, 두부·채소로 끓인 소탕, 생선으로 끓인 어탕을 나란히 놓기도 해요.',
+   no:{namul:'나물은 조금 더 앞줄인 4열에 놓아요.', bae:'배는 맨 앞줄 과일 자리예요.'} },
+ { type:'cell', row:3, food:'sikhye', cells:[0,4], ans:4,
+   q:'4열은 밑반찬 자리예요. 🍵 <b>식혜</b>는 어느 쪽에 놓을까요?',
+   sub:'포(말린 고기)와 식혜는 서로 반대편이에요.',
+   also:[[3,0,'po'],[3,2,'namul']], learn:3,
+   ok:'<b>좌포우혜</b>(左脯右醯) — 포는 왼쪽, 식혜는 오른쪽. 가운데에는 삼색나물을 놓았어요.',
+   noAll:'그쪽은 포 자리예요. 식혜는 오른쪽! <b>좌포우혜</b>라고 해요.' },
+ { type:'seq', row:4, order:['daechu','bam','bae','gam'], learn:4,
+   q:'마지막 <b>5열</b>은 과일 자리! 왼쪽부터 순서대로 놓아 보세요.',
+   sub:'대추 → 밤 → 배 → 감. 앞 글자만 따면 “조·율·이·시”예요.',
+   ok:'<b>조율이시</b>(棗栗梨柿) 완성! 대추·밤·배·감 순서로 놓는다는 뜻이에요.',
+   noAll:'아직 그 차례가 아니에요. 대추 → 밤 → 배 → 감 순서를 생각해 보세요.' },
+ { type:'quiz',
+   q:'상을 다 차렸어요. 그런데 이 규칙, 온 나라가 똑같을까요?',
+   sub:'마지막 질문이에요.',
+   opts:[['집집마다 달라요','a'],['전국이 똑같아요','b']], ans:'a',
+   ok:'맞아요. 2022년 성균관에서도 “차례 음식은 <b>9가지면 충분</b>하고, 홍동백서·조율이시 같은 말은 옛 예법책에 없다”고 발표했어요. 전을 부치지 않아도 괜찮대요.<br><br>그러니까 이제, <b>네가 차리고 싶은 상</b>을 차려 볼 차례!',
+   no:{b:'사실은 집집마다, 지역마다 아주 달라요. 성균관에서도 “9가지면 충분하다”고 했답니다.'} }
+];
+
+var CATS = [
+ ['전통',[['🌙','송편'],['🍖','갈비찜'],['🥘','전'],['🍝','잡채'],['🍵','식혜'],['🥬','나물'],
+          ['🌰','밤'],['🍐','배'],['🍊','감'],['🍒','대추'],['🍪','한과'],['🫖','수정과']]],
+ ['한식',[['🥩','불고기'],['🍲','비빔밥'],['🌶️','김치'],['🥓','삼겹살'],['🍳','계란찜'],
+          ['🥣','미역국'],['🍙','김밥'],['🍜','칼국수']]],
+ ['분식',[['🌶️','떡볶이'],['🍜','라면'],['🍤','튀김'],['🍢','어묵'],['🥟','만두'],
+          ['🌭','핫도그'],['🍟','감자튀김'],['🥪','토스트']]],
+ ['세계',[['🍕','피자'],['🍗','치킨'],['🍔','햄버거'],['🍣','초밥'],['🍝','파스타'],
+          ['🥩','스테이크'],['🌮','타코'],['🍲','마라탕']]],
+ ['디저트',[['🍰','케이크'],['🍨','아이스크림'],['🍩','도넛'],['🍫','초콜릿'],['🍡','탕후루'],
+          ['🧁','마카롱'],['🍓','딸기'],['🍉','수박'],['🍇','포도'],['🥤','음료']]]
+];
+
+var LAB=['1열','2열','3열','4열','5열'];
+var MEMO=['반서갱동','어동육서','탕 자리','좌포우혜','조율이시'];
+var g1,g2,qi,seqStep,learned,sel,catI;
+
+function blank(){ var a=[],i,j; for(i=0;i<5;i++){a.push([]);for(j=0;j<5;j++)a[i].push(null);} return a; }
+
+function gShow(id){
+  var s=document.querySelectorAll('#page-game .gscreen'),i;
+  for(i=0;i<s.length;i++) s[i].classList.remove('on');
+  $(id).classList.add('on');
+  window.scrollTo(0,0);
+}
+function moon(p){ gameMoon=p; setMoon(p); }
+
+function drawBoard(el,grid,opts){
+  opts=opts||{}; el.innerHTML='';
+  for(var r=0;r<5;r++){
+    var row=document.createElement('div'); row.className='rowline';
+    var lab=document.createElement('div');
+    lab.className='rlab'+((opts.learned&&opts.learned.indexOf(r)>-1)?' learned':'');
+    lab.innerHTML=LAB[r]+'<small>'+MEMO[r]+'</small>';
+    row.appendChild(lab);
+    for(var c=0;c<5;c++){
+      var cell=document.createElement('button');
+      cell.type='button'; cell.className='cell';
+      cell.dataset.r=r; cell.dataset.c=c;
+      var v=grid[r][c];
+      if(v){ cell.className+=' filled';
+        cell.innerHTML='<span class="em">'+v[0]+'</span>'+v[1];
+        cell.setAttribute('aria-label',LAB[r]+' '+v[1]);
+      }else cell.setAttribute('aria-label',LAB[r]+' 빈자리');
+      row.appendChild(cell);
+    }
+    el.appendChild(row);
+  }
+}
+function startR1(){
+  g1=blank(); qi=0; seqStep=0; learned=[];
+  setStage('ROUND 1 · 옛날 상 배우기','1열부터 5열까지');
+  moon(0); gShow('s-round1'); renderQ();
+}
+function place(r,c,key,pop){
+  g1[r][c]=F[key];
+  drawBoard($('board1'),g1,{learned:learned});
+  if(pop!==false){
+    var el=$('board1').querySelector('.cell[data-r="'+r+'"][data-c="'+c+'"]');
+    if(el) el.classList.add('pop');
+  }
+}
+function renderQ(){
+  var q=R1[qi], box=$('qbox'), h='';
+  drawBoard($('board1'),g1,{learned:learned});
+  moon(qi/R1.length);
+  h='<p class="qtxt">'+q.q+'</p>';
+  if(q.sub) h+='<p class="qhint">'+q.sub+'</p>';
+  if(q.type==='food'){
+    h+='<div class="opts">';
+    for(var i=0;i<q.opts.length;i++){ var f=F[q.opts[i]];
+      h+='<button class="opt" data-k="'+q.opts[i]+'"><span class="em">'+f[0]+'</span>'+f[1]+'</button>'; }
+    h+='</div>'; box.innerHTML=h;
+    markTarget(q.row,q.col);
+    bind(box,'.opt',function(b){ answerFood(b.dataset.k); });
+  }else if(q.type==='cell'){
+    var f2=F[q.food];
+    h+='<div class="opts" style="justify-content:center"><div class="showfood">'+
+       '<span class="em">'+f2[0]+'</span>'+f2[1]+'</div></div>';
+    box.innerHTML=h;
+    for(var j=0;j<q.cells.length;j++) markTarget(q.row,q.cells[j],true);
+    bind($('board1'),'.cell.pick',function(b){ answerCell(+b.dataset.c,b); });
+  }else if(q.type==='seq'){
+    var pool=q.order.slice(seqStep), shuf=pool.slice(),k;
+    for(k=shuf.length-1;k>0;k--){ var t=Math.floor(Math.random()*(k+1)),tm=shuf[k];shuf[k]=shuf[t];shuf[t]=tm; }
+    h+='<div class="opts">';
+    for(k=0;k<shuf.length;k++){ var f3=F[shuf[k]];
+      h+='<button class="opt" data-k="'+shuf[k]+'"><span class="em">'+f3[0]+'</span>'+f3[1]+'</button>'; }
+    h+='</div>'; box.innerHTML=h;
+    markTarget(q.row,seqStep);
+    bind(box,'.opt',function(b){ answerSeq(b.dataset.k,b); });
+  }else if(q.type==='quiz'){
+    h+='<div class="opts">';
+    for(var m=0;m<q.opts.length;m++)
+      h+='<button class="opt txtonly" data-k="'+q.opts[m][1]+'">'+q.opts[m][0]+'</button>';
+    h+='</div>'; box.innerHTML=h;
+    bind(box,'.opt',function(b){ answerQuiz(b.dataset.k,b); });
+  }
+}
+function markTarget(r,c,pick){
+  var el=$('board1').querySelector('.cell[data-r="'+r+'"][data-c="'+c+'"]');
+  if(!el) return;
+  el.classList.add('target'); if(pick) el.classList.add('pick');
+}
+function bind(scope,selc,fn){
+  var els=scope.querySelectorAll(selc),i;
+  for(i=0;i<els.length;i++)
+    (function(el){ el.addEventListener('click',function(){ fn(el); }); })(els[i]);
+}
+function feedback(txt,good,next){
+  var box=$('qbox'), d=document.createElement('div');
+  d.className='fb'+(good?'':' no'); d.innerHTML=txt;
+  var old=box.querySelector('.fb'); if(old) old.remove();
+  box.appendChild(d);
+  if(good){
+    var b=document.createElement('button');
+    b.className='btn'; b.textContent=next||'다음';
+    b.addEventListener('click',nextQ); box.appendChild(b);
+    var opts=box.querySelectorAll('.opt'),i;
+    for(i=0;i<opts.length;i++){ opts[i].style.pointerEvents='none'; opts[i].style.opacity='.45'; }
+    var picks2=$('board1').querySelectorAll('.cell.pick'),j;
+    for(j=0;j<picks2.length;j++) picks2[j].classList.remove('pick','target');
+  }
+}
+function applyAlso(q){ if(q.also) for(var i=0;i<q.also.length;i++) place(q.also[i][0],q.also[i][1],q.also[i][2]); }
+function answerFood(k){
+  var q=R1[qi];
+  if(k===q.ans){
+    if(q.learn!==undefined && learned.indexOf(q.learn)<0) learned.push(q.learn);
+    place(q.row,q.col,k); applyAlso(q);
+    feedback(q.ok,true, qi===R1.length-1?'ROUND 2로':'다음 미션');
+  }else{
+    var btn=$('qbox').querySelector('.opt[data-k="'+k+'"]');
+    if(btn){ btn.classList.remove('wrong'); void btn.offsetWidth; btn.classList.add('wrong'); }
+    feedback((q.no&&q.no[k])||'다시 한 번 생각해 볼까요?',false);
+  }
+}
+function answerCell(c,btn){
+  var q=R1[qi];
+  if(c===q.ans){
+    if(q.learn!==undefined && learned.indexOf(q.learn)<0) learned.push(q.learn);
+    place(q.row,c,q.food); applyAlso(q); feedback(q.ok,true,'다음 미션');
+  }else{
+    btn.classList.remove('shake'); void btn.offsetWidth; btn.classList.add('shake');
+    feedback(q.noAll,false);
+  }
+}
+function answerSeq(k,btn){
+  var q=R1[qi];
+  if(k===q.order[seqStep]){
+    place(q.row,seqStep,k); seqStep++;
+    if(seqStep>=q.order.length){
+      if(learned.indexOf(q.learn)<0) learned.push(q.learn);
+      drawBoard($('board1'),g1,{learned:learned});
+      feedback(q.ok,true,'다음 미션');
+    }else renderQ();
+  }else{
+    btn.classList.remove('wrong'); void btn.offsetWidth; btn.classList.add('wrong');
+    feedback(q.noAll,false);
+  }
+}
+function answerQuiz(k,btn){
+  var q=R1[qi];
+  if(k===q.ans){ moon(1); feedback(q.ok,true,'나만의 상 차리러 가기'); }
+  else{ btn.classList.remove('wrong'); void btn.offsetWidth; btn.classList.add('wrong');
+    feedback(q.no[k],false); }
+}
+function nextQ(){
+  qi++;
+  if(qi>=R1.length){ startR2(); return; }
+  seqStep=0; renderQ();
+}
+function startR2(){
+  g2=blank(); sel=null; catI=0;
+  setStage('ROUND 2 · 내 상 차리기','정답은 없어요');
+  moon(1); gShow('s-round2'); renderTabs(); renderTray(); refresh2();
+}
+function renderTabs(){
+  var t=$('tabs'); t.innerHTML='';
+  for(var i=0;i<CATS.length;i++){
+    var b=document.createElement('button');
+    b.type='button'; b.className='tab'; b.textContent=CATS[i][0];
+    b.setAttribute('role','tab'); b.setAttribute('aria-selected', i===catI?'true':'false');
+    (function(idx){ b.addEventListener('click',function(){ catI=idx; renderTabs(); renderTray(); }); })(i);
+    t.appendChild(b);
+  }
+}
+function renderTray(){
+  var t=$('tray'); t.innerHTML='';
+  var list=CATS[catI][1];
+  for(var i=0;i<list.length;i++){
+    var b=document.createElement('button');
+    b.type='button'; b.className='fitem';
+    b.innerHTML='<span class="em">'+list[i][0]+'</span>'+list[i][1];
+    (function(f){ b.addEventListener('click',function(){ put(f); }); })(list[i]);
+    t.appendChild(b);
+  }
+}
+function put(f){
+  var r,c,target=sel;
+  if(!target){
+    outer: for(r=0;r<5;r++) for(c=0;c<5;c++) if(!g2[r][c]){ target=[r,c]; break outer; }
+  }
+  if(!target){ $('cnt').textContent='상이 가득 찼어요! 음식을 눌러 비우면 바꿀 수 있어요.'; return; }
+  g2[target[0]][target[1]]=f; sel=null; refresh2(target);
+}
+function refresh2(pop){
+  drawBoard($('board2'),g2,{});
+  var cells=$('board2').querySelectorAll('.cell'),i,n=0;
+  for(i=0;i<cells.length;i++){
+    cells[i].classList.add('pick');
+    (function(el){ el.addEventListener('click',function(){
+      var r=+el.dataset.r,c=+el.dataset.c;
+      if(g2[r][c]){ g2[r][c]=null; sel=[r,c]; }
+      else sel=(sel&&sel[0]===r&&sel[1]===c)?null:[r,c];
+      refresh2();
+    }); })(cells[i]);
+  }
+  for(var r=0;r<5;r++) for(var c=0;c<5;c++) if(g2[r][c]) n++;
+  if(sel){
+    var s=$('board2').querySelector('.cell[data-r="'+sel[0]+'"][data-c="'+sel[1]+'"]');
+    if(s) s.classList.add('sel');
+  }
+  if(pop){
+    var p=$('board2').querySelector('.cell[data-r="'+pop[0]+'"][data-c="'+pop[1]+'"]');
+    if(p) p.classList.add('pop');
+  }
+  $('cnt').textContent = n===0
+    ? '빈 자리를 눌러 고른 뒤, 아래에서 음식을 골라요'
+    : '음식 '+n+'개 · 놓인 음식을 누르면 비워져요';
+}
+function roundRect(x,l,t,w,h,r){
+  x.beginPath(); x.moveTo(l+r,t);
+  x.arcTo(l+w,t,l+w,t+h,r); x.arcTo(l+w,t+h,l,t+h,r);
+  x.arcTo(l,t+h,l,t,r); x.arcTo(l,t,l+w,t,r); x.closePath();
+}
+function makeCard(){
+  var name=($('tme').value||'나').trim();
+  var title=($('tname').value||'우리 집 최애 음식상').trim();
+  var who=($('twho').value||'우리 가족').trim();
+  $('b2tag').textContent=title;
+  var cv=$('card'), x=cv.getContext('2d'), W=cv.width, H=cv.height;
+  var bg=x.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,'#1c294a'); bg.addColorStop(.55,'#131b30'); bg.addColorStop(1,'#0e1424');
+  x.fillStyle=bg; x.fillRect(0,0,W,H);
+  x.fillStyle='rgba(246,231,193,.55)';
+  var seed=7,s;
+  for(s=0;s<46;s++){
+    seed=(seed*9301+49297)%233280; var sx=(seed/233280)*W;
+    seed=(seed*9301+49297)%233280; var sy=(seed/233280)*(H*.42);
+    seed=(seed*9301+49297)%233280; var sr=(seed/233280)*1.9+.6;
+    x.beginPath(); x.arc(sx,sy,sr,0,6.284); x.fill();
+  }
+  var gl=x.createRadialGradient(W-150,132,10,W-150,132,130);
+  gl.addColorStop(0,'rgba(246,231,193,.42)'); gl.addColorStop(1,'rgba(246,231,193,0)');
+  x.fillStyle=gl; x.beginPath(); x.arc(W-150,132,130,0,6.284); x.fill();
+  x.fillStyle='#f6e7c1'; x.beginPath(); x.arc(W-150,132,54,0,6.284); x.fill();
+  x.fillStyle='rgba(0,0,0,.05)';
+  x.beginPath(); x.arc(W-166,120,13,0,6.284); x.fill();
+  x.beginPath(); x.arc(W-134,148,9,0,6.284); x.fill();
+  x.textAlign='left';
+  x.fillStyle='#e0aa4e'; x.font='700 26px "Gowun Dodum", sans-serif';
+  x.fillText('추석 한상 챌린지 · 2026', 64, 96);
+  x.fillStyle='#f6e7c1'; x.font='700 54px "Gowun Batang", serif';
+  x.fillText(name+'의 추석 한상', 64, 162);
+  x.font='700 46px "Gaegu", cursive';
+  x.fillText('「'+title+'」', 64, 232);
+  var bx=64, by=286, bw=W-128, bh=560;
+  roundRect(x,bx,by,bw,bh,26);
+  var lac=x.createLinearGradient(0,by,0,by+bh);
+  lac.addColorStop(0,'#8d4636'); lac.addColorStop(1,'#6b2f27');
+  x.fillStyle=lac; x.fill();
+  x.lineWidth=6; x.strokeStyle='#4d211b'; x.stroke();
+  x.fillStyle='#4d211b';
+  x.fillRect(bx+70,by+bh-2,34,26); x.fillRect(bx+bw-104,by+bh-2,34,26);
+  var pad=20, gw=(bw-pad*2)/5, gh=(bh-pad*2)/5;
+  for(var r=0;r<5;r++) for(var c=0;c<5;c++){
+    var cx=bx+pad+c*gw, cy=by+pad+r*gh, f=g2[r][c];
+    roundRect(x,cx+5,cy+5,gw-10,gh-10,12);
+    if(f){ x.fillStyle='#f1e7d3'; x.fill(); x.lineWidth=2; x.strokeStyle='#e0d2b6'; x.stroke(); }
+    else { x.fillStyle='rgba(0,0,0,.13)'; x.fill(); }
+    if(f){
+      x.textAlign='center'; x.fillStyle='#2b2118';
+      x.font='40px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+      x.fillText(f[0], cx+gw/2, cy+gh/2+4);
+      x.font='700 17px "Gowun Dodum", sans-serif';
+      x.fillText(f[1], cx+gw/2, cy+gh-18);
+    }
+  }
+  x.textAlign='left';
+  x.fillStyle='#e0aa4e'; x.font='700 24px "Gowun Dodum", sans-serif';
+  x.fillText('함께 먹고 싶은 사람', 64, by+bh+76);
+  x.fillStyle='#f6e7c1'; x.font='700 40px "Gaegu", cursive';
+  x.fillText(who, 64, by+bh+128);
+  x.fillStyle='rgba(189,176,148,.75)'; x.font='19px "Gowun Dodum", sans-serif';
+  x.fillText('#추석한상챌린지  #나만의추석상  #한가위2026', 64, H-56);
+}
+function showResult(){
+  setStage('RESULT · 한상 완성','오늘의 나의 추석상');
+  gShow('s-result'); makeCard();
+  if(document.fonts && document.fonts.load){
+    Promise.all([
+      document.fonts.load('700 46px "Gaegu"'),
+      document.fonts.load('700 54px "Gowun Batang"'),
+      document.fonts.load('700 26px "Gowun Dodum"')
+    ]).then(function(){ makeCard(); }).catch(function(){});
+  }
+}
+$('go1').addEventListener('click', startR1);
+$('done').addEventListener('click', function(){
+  var n=0,r,c; for(r=0;r<5;r++) for(c=0;c<5;c++) if(g2[r][c]) n++;
+  if(n===0){ $('cnt').textContent='음식을 하나라도 놓아야 상이 완성돼요!'; return; }
+  showResult();
+});
+$('again2').addEventListener('click', startR2);
+})();
+
+/* ════════════ 시작 ════════════ */
+(function(){
+  var h=(location.hash||'').replace('#','');
+  goPage((h==='quiz'||h==='game')?h:'home');
+})();
+</script>
+</body>
+</html>
