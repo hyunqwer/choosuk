@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -439,12 +440,13 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(-
 
     <div class="lock" id="lockBox">
       <div class="lh"><span>🔒</span><b>부모님·선생님용 · 정답과 해설</b></div>
-      <p>20문항의 정답, 아이에게 준 힌트, 그리고 배경 해설이 들어 있습니다. 비밀번호는 이 명절의 이름 두 글자예요.</p>
+      <p>20문항의 정답, 아이에게 준 힌트, 그리고 배경 해설이 들어 있습니다.</p>
       <form id="lockForm">
-        <input id="lockPw" type="password" inputmode="text" placeholder="비밀번호" autocomplete="off">
+        <input id="lockPw" type="text" lang="ko" placeholder="비밀번호" autocomplete="off"
+               autocapitalize="off" spellcheck="false">
         <button type="submit">열기</button>
       </form>
-      <div class="err" id="lockErr">비밀번호가 달라요. 이 명절의 이름 두 글자를 한글로 적어 주세요.</div>
+      <div class="err" id="lockErr">비밀번호가 달라요.</div>
     </div>
 
     <p class="foot">※ 차례상 차리는 법은 지역과 집안에 따라 조금씩 달라요.<br>이 퀴즈는 가장 널리 알려진 방식을 기준으로 했어요.</p>
@@ -642,10 +644,18 @@ $('submitBtn').addEventListener('click',function(){
 });
 
 /* 해설 잠금 */
+function pwOk(raw){
+  var v=(raw||'').replace(/\s/g,'');
+  if(!v) return false;
+  /* 맥·모바일 입력기는 자모가 분해된(NFD) 문자열을 넘기기도 해서 NFC로 모아 준다 */
+  if(v.normalize) v=v.normalize('NFC');
+  if(enc(v)===PW_B64) return true;
+  return v.toLowerCase()==='chuseok';   /* 영문 자판으로 잠긴 경우의 예비 통로 */
+}
 $('lockForm').addEventListener('submit',function(e){
   e.preventDefault();
-  var v=($('lockPw').value||'').trim();
-  if(v && enc(v)===PW_B64){
+  var v=$('lockPw').value;
+  if(pwOk(v)){
     $('lockErr').style.display='none';
     $('lockPw').value='';
     renderSolutions();
